@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Prem Swaroopa Nanda Ramalingam - Portfolio</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 
     <style>
         :root {
@@ -19,11 +19,7 @@
             --text: #000;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: "Inter", sans-serif;
@@ -32,12 +28,10 @@
             overflow-x: hidden;
         }
 
-        /* Sticky Top Section Title */
+        /* Sticky section header */
         .sticky-header {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             background: #111;
             color: var(--yellow-light);
             text-align: center;
@@ -47,16 +41,9 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        /* HEADER */
         header {
             padding-top: 90px;
-            min-height: 100vh;
+            min-height: 85vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -74,9 +61,9 @@
         }
 
         .profile-name {
-            font-size: 2.8rem;
+            font-size: 2.6rem;
+            font-weight: 800;
             margin-top: 1rem;
-            font-weight: 700;
         }
 
         .contact-info {
@@ -84,84 +71,68 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1.2rem;
         }
 
-        .contact-info i {
-            margin-right: 6px;
-        }
+        .contact-info a { color: var(--yellow-light); text-decoration: none; font-weight: 500; }
+        .contact-info a:hover { text-decoration: underline; }
 
-        .contact-info a {
-            color: var(--yellow-light);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .contact-info a:hover {
-            text-decoration: underline;
-        }
-
-        /* SECTION STYLING */
+        /* Sections */
         .fullscreen-section {
-            min-height: 100vh;
-            padding: 70px 20px;
+            min-height: 85vh;
+            padding: 50px 20px;
         }
 
         .section-title {
-            font-size: 2.4rem;
-            font-weight: 700;
+            font-size: 2.3rem;
+            font-weight: 800;
             text-align: center;
             margin-bottom: 20px;
         }
 
         .section-title::after {
             content: "";
-            display: block;
-            width: 120px;
+            width: 110px;
             height: 4px;
-            margin: 12px auto 0;
             background: var(--yellow-dark);
+            margin: 10px auto 0;
+            display: block;
         }
 
         .summary-text {
             max-width: 850px;
             margin: auto;
             text-align: center;
-            font-size: 1.2rem;
-            line-height: 1.8;
+            font-size: 1.15rem;
+            line-height: 1.75;
         }
 
-        /* CONTENT BOXES */
+        /* Card Boxes */
         .card {
             background: var(--yellow-light);
-            padding: 1.8rem;
+            padding: 1.4rem;
             border-radius: 12px;
             border-left: 4px solid #000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+            margin-bottom: 1.4rem;
         }
 
         .card-title {
             font-weight: 800;
-            font-size: 1.2rem;
-            margin-bottom: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
         }
 
         .card-sub {
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
-        .responsibilities li {
-            margin-left: 1rem;
-            margin-bottom: 0.6rem;
-        }
-
-        /* SKILLS */
+        /* Skills */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
         }
 
         .skill-tag {
@@ -170,25 +141,26 @@
             color: var(--yellow-light);
             padding: 6px 14px;
             border-radius: 14px;
-            margin: 4px;
+            margin: 3px;
             font-size: 0.9rem;
         }
 
-        /* FLOATING MINI PROFILE */
+        /* Floating Profile */
         .floating-profile {
             position: fixed;
             top: 10px;
             right: 10px;
             display: none;
             background: #111;
-            color: var(--yellow-light);
-            padding: 8px 14px;
+            color: #fff;
+            padding: 8px 12px;
             border-radius: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             align-items: center;
-            gap: 10px;
-            z-index: 1200;
-            font-size: 0.9rem;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+            z-index: 2000;
+            transition: 0.2s;
         }
 
         .floating-profile img {
@@ -198,68 +170,100 @@
             border: 2px solid var(--yellow);
         }
 
-        @media (max-width: 768px) {
-            .profile-name {
-                font-size: 2rem;
-            }
+        .floating-profile:hover {
+            transform: scale(1.05);
+        }
 
-            .section-title {
-                font-size: 2rem;
-            }
+        /* Modal */
+        .modal-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
 
-            .floating-profile {
-                font-size: 0.78rem;
-                padding: 6px 10px;
-            }
+        .modal-box {
+            background: #fff;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
 
-            .floating-profile img {
-                width: 30px;
-                height: 30px;
-            }
+        .modal-box a {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: #000;
+            color: #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media(max-width:768px){
+            .profile-name { font-size: 2rem; }
+            .section-title { font-size: 1.9rem; }
+            .floating-profile { font-size: 0.8rem; }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- Sticky Section Title -->
     <div class="sticky-header" id="currentSection">Welcome</div>
 
-    <!-- FLOATING MINI PROFILE -->
+    <!-- Floating Profile -->
     <div class="floating-profile" id="floatProfile">
-        <img src="IMG_1758.jpg" alt="">
+        <img src="IMG_1758.jpg" />
         <span>Prem Swaroopa Nanda</span>
     </div>
 
-    <!-- WELCOME -->
+    <!-- Contact Modal -->
+    <div class="modal-bg" id="contactModal">
+        <div class="modal-box">
+            <h3>Contact Details</h3>
+            <a href="tel:3127307277"><i class="fas fa-phone"></i> 312-730-7277</a>
+            <a href="mailto:Ramlingam.prem@gmail.com"><i class="fas fa-envelope"></i> Email</a>
+            <a href="https://www.linkedin.com/in/prem-ramalingam-81b35238b" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="Resume_PR.pdf" download><i class="fas fa-file-arrow-down"></i> Download Resume</a>
+            <br>
+            <a style="background:#777" onclick="closeModal()">Close</a>
+        </div>
+    </div>
+
+    <!-- Welcome Section -->
     <header id="welcome">
-        <div class="container">
-            <img src="IMG_1758.jpg" class="profile-photo" alt="Profile Photo" />
+        <div>
+            <img src="IMG_1758.jpg" class="profile-photo" />
             <h1 class="profile-name">PREM SWAROOPA NANDA RAMALINGAM</h1>
 
             <div class="contact-info">
                 <div><i class="fas fa-map-marker-alt"></i> Chicago, IL</div>
                 <div><i class="fas fa-phone"></i> 312-730-7277</div>
                 <div><i class="fas fa-envelope"></i> Ramlingam.prem@gmail.com</div>
-
-                <div>
-                    <i class="fab fa-linkedin"></i>
-                    <a href="https://www.linkedin.com/in/prem-ramalingam-81b35238b" target="_blank">LinkedIn</a>
+                <div><i class="fab fa-linkedin"></i>
+                    <a target="_blank" href="https://www.linkedin.com/in/prem-ramalingam-81b35238b">LinkedIn</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- SUMMARY -->
+    <!-- Summary -->
     <section class="fullscreen-section" id="summary">
         <h2 class="section-title">Summary</h2>
         <p class="summary-text">
             Innovative and detail-oriented computer science graduate with experience in cloud computing,
-            data engineering, and software development. Skilled in AWS, GCP, scalable pipelines, UX design,
-            and software architecture.
+            data engineering, scalable pipelines, UX design, and software architecture.
         </p>
     </section>
 
-    <!-- EDUCATION -->
+    <!-- Education -->
     <section class="fullscreen-section" id="education">
         <h2 class="section-title">Education</h2>
         <div class="container">
@@ -274,14 +278,14 @@
             <div class="card">
                 <div class="card-title">Bachelor of Technology, Mechanical Engineering</div>
                 <div class="card-sub">Siddharth Institute of Engineering and Technology</div>
-                <div>MAY 2020 | Puttur, India</div>
+                <div>MAY 2020 • Puttur, India</div>
                 <div>GPA: 8.15</div>
             </div>
 
         </div>
     </section>
 
-    <!-- SKILLS -->
+    <!-- Skills -->
     <section class="fullscreen-section" id="skills">
         <h2 class="section-title">Skills</h2>
         <div class="container skills-grid">
@@ -321,7 +325,7 @@
         </div>
     </section>
 
-    <!-- WORK EXPERIENCE -->
+    <!-- Experience -->
     <section class="fullscreen-section" id="experience">
         <h2 class="section-title">Work Experience</h2>
         <div class="container">
@@ -331,9 +335,9 @@
                 <div class="card-sub">Graduate Research Project – GSU</div>
                 <div>AUG 2025 – PRESENT</div>
                 <ul class="responsibilities">
-                    <li>Designed requirement graphs using perplexity/probability metrics.</li>
-                    <li>Developed Deep Q-Learning agent for dynamic release planning.</li>
-                    <li>Evaluated across datasets: Zoom, Webex, Teams, Word, Excel, PowerPoint.</li>
+                    <li>Designed requirement graphs using perplexity & probability metrics.</li>
+                    <li>Developed Deep Q-Learning agent for release planning.</li>
+                    <li>Evaluated across Zoom, Teams, Webex, Office Suite datasets.</li>
                 </ul>
             </div>
 
@@ -342,8 +346,8 @@
                 <div class="card-sub">HCL Technologies – Chennai, India</div>
                 <div>NOV 2021 – AUG 2023</div>
                 <ul class="responsibilities">
-                    <li>Built and optimized large-scale pipelines using AWS S3, Glue ETL, RedShift, SNS.</li>
-                    <li>Improved data scalability and system performance.</li>
+                    <li>Built scalable cloud pipelines using AWS S3, Glue, SNS, RedShift.</li>
+                    <li>Improved data scalability & system performance.</li>
                     <li>Worked with GCS, BigQuery, Dataflow, Firestore.</li>
                     <li>Automated cloud workflows using Python.</li>
                 </ul>
@@ -352,7 +356,7 @@
         </div>
     </section>
 
-    <!-- PROJECTS -->
+    <!-- Projects -->
     <section class="fullscreen-section" id="projects">
         <h2 class="section-title">Projects</h2>
         <div class="container">
@@ -360,29 +364,31 @@
             <div class="card">
                 <div class="card-title">MobileNetV2-Based Object Detection</div>
                 <div class="card-sub">JAN 2025 – MAR 2025</div>
-                <p>Built object detection model with 9,963 images across 20 classes.</p>
+                <p>Object detection model trained on 9,963 images across 20 categories.</p>
             </div>
 
             <div class="card">
                 <div class="card-title">Innovative UX Design – UniLife Hub</div>
                 <div class="card-sub">JAN 2024 – MAR 2024</div>
-                <p>Designed student UX with research, wireframing, and usability metrics.</p>
+                <p>Designed UX using wireframes, personas, workflows & usability metrics.</p>
             </div>
 
             <div class="card">
                 <div class="card-title">HawkGen Mobile Application</div>
                 <div class="card-sub">AUG 2023 – DEC 2023</div>
-                <p>Developed modular academic planning app reducing dev time by 15%.</p>
+                <p>Developed modular app for academic planning, reducing dev time by 15%.</p>
             </div>
 
         </div>
     </section>
 
+    <!-- Footer -->
     <footer style="background:#000;color:#fff;text-align:center;padding:20px;">
         © 2025 Prem Swaroopa Nanda Ramalingam
     </footer>
 
     <script>
+        /* Section Tracker */
         const sections = [
             { id: "welcome", name: "Welcome" },
             { id: "summary", name: "Summary" },
@@ -392,26 +398,33 @@
             { id: "projects", name: "Projects" }
         ];
 
-        const currentSectionLabel = document.getElementById("currentSection");
+        const label = document.getElementById("currentSection");
         const floatProfile = document.getElementById("floatProfile");
 
         window.addEventListener("scroll", () => {
-            let scrollPos = window.scrollY + 200;
+            let scroll = window.scrollY + 200;
 
             let active = sections[0];
             for (let s of sections) {
                 let el = document.getElementById(s.id);
-                if (el && scrollPos >= el.offsetTop) active = s;
+                if (el && scroll >= el.offsetTop) active = s;
             }
 
-            currentSectionLabel.textContent = active.name;
+            label.textContent = active.name;
 
-            if (scrollPos > document.getElementById("summary").offsetTop) {
+            // Show mini profile AFTER Summary
+            if (scroll > document.getElementById("summary").offsetTop) {
                 floatProfile.style.display = "flex";
             } else {
                 floatProfile.style.display = "none";
             }
         });
+
+        // Modal functions
+        const modal = document.getElementById("contactModal");
+
+        floatProfile.onclick = () => modal.style.display = "flex";
+        function closeModal() { modal.style.display = "none"; }
     </script>
 
 </body>
