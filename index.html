@@ -217,15 +217,24 @@ header {
     border-radius: 14px;
     margin: 4px;
 }
-
-/* Achievements */
-.achievements-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.3rem;
+/* Achievements – Auto-Scrolling Carousel */
+.achievement-slider {
+    width: 100%;
+    overflow: hidden;
     margin-top: 20px;
+    position: relative;
 }
+
+.achievement-track {
+    display: flex;
+    gap: 20px;
+    padding: 10px 0;
+    animation: scrollAchievements 28s linear infinite;
+    will-change: transform;
+}
+
 .achievement-box {
+    min-width: 260px;
     background: #000;
     color: var(--gold);
     padding: 20px;
@@ -234,10 +243,18 @@ header {
     border: 2px solid var(--gold-dark);
     font-size: 1rem;
     font-weight: 600;
+    flex-shrink: 0;
 }
+
 .achievement-box i {
     font-size: 1.6rem;
     margin-bottom: 8px;
+}
+
+/* Smooth Auto-Scrolling */
+@keyframes scrollAchievements {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 footer {
@@ -517,57 +534,105 @@ footer {
 <section class="fullscreen-section fade-in" id="achievements">
     <h2 class="section-title">Achievements</h2>
 
-    <div class="container achievements-grid">
+    <!-- AUTO-SCROLL CONTAINER -->
+    <div class="achievement-slider">
+        <div class="achievement-track">
 
-        <div class="achievement-box fade-in">
-            <i class="fas fa-trophy"></i>
-            Improved cloud data workflows at HCL reducing manual work by 40%.
+            <div class="achievement-box">
+                <i class="fas fa-trophy"></i>
+                Improved cloud data workflows at HCL reducing manual work by 40%.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-star"></i>
+                Recognized for developing high-usability UX prototypes among top submissions.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-bolt"></i>
+                Enhanced performance of large GCS → BigQuery pipelines by 20%.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-chart-line"></i>
+                Built scalable cloud data models that improved processing speed by 30% across analytics workloads.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-robot"></i>
+                Designed ML-based automation scripts that reduced repetitive engineering tasks by 25%.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-cloud-upload-alt"></i>
+                Successfully migrated on-prem datasets to AWS & GCP with zero downtime and validated accuracy.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-users-cog"></i>
+                Collaborated with cross-functional teams to deliver cloud pipeline enhancements ahead of schedule.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-shield-alt"></i>
+                Implemented secure data-handling workflows ensuring compliance with internal security standards.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-lightbulb"></i>
+                Proposed optimization strategies that reduced cost of cloud storage and compute by ~18%.
+            </div>
+
+            <!-- DUPLICATE ALL ITEMS AGAIN FOR SMOOTH INFINITE LOOP -->
+            <div class="achievement-box">
+                <i class="fas fa-trophy"></i>
+                Improved cloud data workflows at HCL reducing manual work by 40%.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-star"></i>
+                Recognized for developing high-usability UX prototypes among top submissions.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-bolt"></i>
+                Enhanced performance of large GCS → BigQuery pipelines by 20%.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-chart-line"></i>
+                Built scalable cloud data models that improved processing speed by 30% across analytics workloads.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-robot"></i>
+                Designed ML-based automation scripts that reduced repetitive engineering tasks by 25%.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-cloud-upload-alt"></i>
+                Successfully migrated on-prem datasets to AWS & GCP with zero downtime and validated accuracy.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-users-cog"></i>
+                Collaborated with cross-functional teams to deliver cloud pipeline enhancements ahead of schedule.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-shield-alt"></i>
+                Implemented secure data-handling workflows ensuring compliance with internal security standards.
+            </div>
+
+            <div class="achievement-box">
+                <i class="fas fa-lightbulb"></i>
+                Proposed optimization strategies that reduced cost of cloud storage and compute by ~18%.
+            </div>
+
         </div>
-
-        <div class="achievement-box fade-in">
-            <i class="fas fa-star"></i>
-            Recognized for developing high-usability UX prototypes among top submissions.
-        </div>
-
-        <div class="achievement-box fade-in">
-            <i class="fas fa-bolt"></i>
-            Enhanced performance of large GCS → BigQuery pipelines by 20%.
-        </div>
-
-        <!-- NEW ACHIEVEMENTS ADDED BELOW -->
-
-        <div class="achievement-box fade-in">
-            <i class="fas fa-chart-line"></i>
-            Built scalable cloud data models that improved processing speed by 30% across analytics workloads.
-        </div>
-
-        <div class="achievement-box fade-in">
-            <i class="fas fa-robot"></i>
-            Designed ML-based automation scripts that reduced repetitive engineering tasks by 25%.
-        </div>
-
-        <div class="achievement-box fade-in">
-            <i class="fas fa-cloud-upload-alt"></i>
-            Successfully migrated on-prem datasets to AWS & GCP with zero downtime and validated accuracy.
-        </div>
-
-        <div class="achievement-box fade-in">
-            <i class="fas fa-users-cog"></i>
-            Collaborated with cross-functional teams to deliver cloud pipeline enhancements ahead of schedule.
-        </div>
-
-        <div class="achievement-box fade-in">
-            <i class="fas fa-shield-alt"></i>
-            Implemented secure data-handling workflows ensuring compliance with internal security standards.
-        </div>
-
-        <div class="achievement-box fade-in">
-            <i class="fas fa-lightbulb"></i>
-            Proposed optimization strategies that reduced cost of cloud storage and compute by ~18%.
-        </div>
-
     </div>
 </section>
+
 
 <footer>
     © 2025 Prem Swaroopa Nanda Ramalingam
