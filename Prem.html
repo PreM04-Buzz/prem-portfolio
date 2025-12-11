@@ -217,57 +217,91 @@ header {
     border-radius: 14px;
     margin: 4px;
 }
-
-/* Achievements */
-.achievement-slider {
+/* Wrapper for whole carousel */
+.ach-wrapper {
+    position: relative;
     width: 100%;
-    overflow-x: auto;         
-    overflow-y: hidden;
-    white-space: nowrap;
-    scroll-behavior: smooth;
+    overflow: hidden;
     margin-top: 20px;
-    padding-bottom: 10px;
 }
 
-.achievement-slider::-webkit-scrollbar {
-    height: 8px;
+/* Main scroll container */
+.achievement-slider {
+    position: relative;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory; /* snap to center */
 }
-.achievement-slider::-webkit-scrollbar-thumb {
-    background: var(--gold-dark);
-    border-radius: 10px;
-}
+.achievement-slider::-webkit-scrollbar { display: none; }
 
+/* Track containing boxes */
 .achievement-track {
-    display: inline-flex;
+    display: flex;
     gap: 20px;
-    animation: autoSlide 25s linear infinite;
-    will-change: transform;
+    padding: 20px;
+    animation: autoScroll 25s linear infinite; /* auto sliding */
 }
 
+/* Single achievement card */
 .achievement-box {
-    min-width: 360px;      
+    min-width: 32%; /* 3 visible at a time */
     background: #000;
     color: var(--gold);
-    padding: 20px;
+    padding: 22px;
     border-radius: 12px;
-    text-align: center;
     border: 2px solid var(--gold-dark);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    flex-shrink: 0;
+    scroll-snap-align: center;
 }
-
 .achievement-box i {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     margin-bottom: 8px;
 }
 
-/* Auto-scroll keyframes */
-@keyframes autoSlide {
+/* Auto-scroll animation */
+@keyframes autoScroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
 
+/* Fade gradient edges (premium UI) */
+.fade-left, .fade-right {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    pointer-events: none;
+    z-index: 5;
+}
+.fade-left {
+    left: 0;
+    background: linear-gradient(to right, var(--bg), transparent);
+}
+.fade-right {
+    right: 0;
+    background: linear-gradient(to left, var(--bg), transparent);
+}
+
+/* Left/Right navigation arrows */
+.ach-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #000;
+    color: var(--gold);
+    font-size: 1.6rem;
+    border: 2px solid var(--gold-dark);
+    border-radius: 50%;
+    padding: 12px;
+    cursor: pointer;
+    z-index: 10;
+}
+.ach-arrow.left { left: 10px; }
+.ach-arrow.right { right: 10px; }
+.ach-arrow:hover {
+    background: var(--gold-dark);
+    color: #000;
+}
 footer {
     background: #000;
     color: #fff;
@@ -540,37 +574,39 @@ footer {
         </div>
     </div>
 </section>
-
-<!-- Achievements -->
 <section class="fullscreen-section fade-in" id="achievements">
     <h2 class="section-title">Achievements</h2>
 
-    <div class="achievement-slider" id="achSlider">
-        <div class="achievement-track" id="achTrack">
+    <div class="ach-wrapper">
+        
+        <!-- Left arrow -->
+        <button class="ach-arrow left" id="achPrev"><i class="fas fa-chevron-left"></i></button>
 
-            <!-- ORIGINAL LIST -->
-            <div class="achievement-box"><i class="fas fa-trophy"></i> Improved cloud data workflows at HCL reducing manual work by 40%. </div>
-            <div class="achievement-box"><i class="fas fa-star"></i> Recognized for developing high-usability UX prototypes among top submissions. </div>
-            <div class="achievement-box"><i class="fas fa-bolt"></i> Enhanced performance of large GCS → BigQuery pipelines by 20%. </div>
-            <div class="achievement-box"><i class="fas fa-chart-line"></i> Built scalable cloud data models improving processing speed by 30%. </div>
-            <div class="achievement-box"><i class="fas fa-robot"></i> Designed ML-based automation scripts reducing repetitive tasks by 25%. </div>
-            <div class="achievement-box"><i class="fas fa-cloud-upload-alt"></i> Migrated on-prem datasets to AWS & GCP with zero downtime. </div>
-            <div class="achievement-box"><i class="fas fa-users-cog"></i> Collaborated across teams to deliver cloud enhancements ahead of schedule. </div>
-            <div class="achievement-box"><i class="fas fa-shield-alt"></i> Implemented secure workflows ensuring compliance. </div>
-            <div class="achievement-box"><i class="fas fa-lightbulb"></i> Proposed optimizations reducing cloud cost by ~18%. </div>
+        <!-- Scrollable carousel -->
+        <div class="achievement-slider" id="achSlider">
 
-            <!-- DUPLICATED LIST FOR SMOOTH LOOP -->
-            <div class="achievement-box"><i class="fas fa-trophy"></i> Improved cloud data workflows at HCL reducing manual work by 40%. </div>
-            <div class="achievement-box"><i class="fas fa-star"></i> Recognized for developing high-usability UX prototypes among top submissions. </div>
-            <div class="achievement-box"><i class="fas fa-bolt"></i> Enhanced performance of large GCS → BigQuery pipelines by 20%. </div>
-            <div class="achievement-box"><i class="fas fa-chart-line"></i> Built scalable cloud data models improving processing speed by 30%. </div>
-            <div class="achievement-box"><i class="fas fa-robot"></i> Designed ML-based automation scripts reducing repetitive tasks by 25%. </div>
-            <div class="achievement-box"><i class="fas fa-cloud-upload-alt"></i> Migrated on-prem datasets to AWS & GCP with zero downtime. </div>
-            <div class="achievement-box"><i class="fas fa-users-cog"></i> Collaborated across teams to deliver cloud enhancements ahead of schedule. </div>
-            <div class="achievement-box"><i class="fas fa-shield-alt"></i> Implemented secure workflows ensuring compliance. </div>
-            <div class="achievement-box"><i class="fas fa-lightbulb"></i> Proposed optimizations reducing cloud cost by ~18%. </div>
+            <!-- Fade edges -->
+            <div class="fade-left"></div>
+            <div class="fade-right"></div>
 
+            <!-- Track (auto-scroll + manual scroll) -->
+            <div class="achievement-track" id="achTrack">
+
+                <div class="achievement-box"><i class="fas fa-trophy"></i>Improved cloud workflows by 40%.</div>
+                <div class="achievement-box"><i class="fas fa-star"></i>High-usability UX prototypes ranked top.</div>
+                <div class="achievement-box"><i class="fas fa-bolt"></i>Enhanced GCS → BigQuery performance by 20%.</div>
+                <div class="achievement-box"><i class="fas fa-chart-line"></i>Cloud models improved processing by 30%.</div>
+                <div class="achievement-box"><i class="fas fa-robot"></i>ML automation reduced engineering tasks by 25%.</div>
+                <div class="achievement-box"><i class="fas fa-cloud-upload-alt"></i>Zero-downtime cloud migration AWS/GCP.</div>
+                <div class="achievement-box"><i class="fas fa-users-cog"></i>Cross-team pipeline delivery ahead of schedule.</div>
+                <div class="achievement-box"><i class="fas fa-shield-alt"></i>Secure data handling workflows.</div>
+                <div class="achievement-box"><i class="fas fa-lightbulb"></i>Cloud cost reduced by ~18%.</div>
+
+            </div>
         </div>
+
+        <!-- Right arrow -->
+        <button class="ach-arrow right" id="achNext"><i class="fas fa-chevron-right"></i></button>
     </div>
 </section>
 
@@ -632,27 +668,91 @@ function closeModal() {
     contactModal.style.display = "none";
 
 }
+/* Wrapper for whole carousel */
+.ach-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 20px;
+}
 
-/* Auto-scroll pause on manual scroll */
-const slider = document.getElementById("achSlider");
-const track = document.getElementById("achTrack");
+/* Main scroll container */
+.achievement-slider {
+    position: relative;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory; /* snap to center */
+}
+.achievement-slider::-webkit-scrollbar { display: none; }
 
-let isPaused = false;
-let resumeTimeout;
+/* Track containing boxes */
+.achievement-track {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    animation: autoScroll 25s linear infinite; /* auto sliding */
+}
 
-/* Pause animation on user scroll */
-slider.addEventListener("scroll", () => {
-    track.style.animationPlayState = "paused";
-    isPaused = true;
+/* Single achievement card */
+.achievement-box {
+    min-width: 32%; /* 3 visible at a time */
+    background: #000;
+    color: var(--gold);
+    padding: 22px;
+    border-radius: 12px;
+    border: 2px solid var(--gold-dark);
+    font-size: 1.1rem;
+    font-weight: 600;
+    scroll-snap-align: center;
+}
+.achievement-box i {
+    font-size: 1.7rem;
+    margin-bottom: 8px;
+}
 
-    clearTimeout(resumeTimeout);
+/* Auto-scroll animation */
+@keyframes autoScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
 
-    resumeTimeout = setTimeout(() => {
-        track.style.animationPlayState = "running";
-        isPaused = false;
-    }, 3000); // resume after 3 seconds
-});
+/* Fade gradient edges (premium UI) */
+.fade-left, .fade-right {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    pointer-events: none;
+    z-index: 5;
+}
+.fade-left {
+    left: 0;
+    background: linear-gradient(to right, var(--bg), transparent);
+}
+.fade-right {
+    right: 0;
+    background: linear-gradient(to left, var(--bg), transparent);
+}
 
+/* Left/Right navigation arrows */
+.ach-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #000;
+    color: var(--gold);
+    font-size: 1.6rem;
+    border: 2px solid var(--gold-dark);
+    border-radius: 50%;
+    padding: 12px;
+    cursor: pointer;
+    z-index: 10;
+}
+.ach-arrow.left { left: 10px; }
+.ach-arrow.right { right: 10px; }
+.ach-arrow:hover {
+    background: var(--gold-dark);
+    color: #000;
+}
 </script>
 
 </body>
