@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -242,11 +241,35 @@ header {
     gap: 20px;
     padding: 20px;
     animation: autoScroll 25s linear infinite; /* auto sliding */
+
+}
+/* Achievements Wrapper */
+.ach-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 25px;
 }
 
-/* Single achievement card */
+/*  Scrollable Area */
+.achievement-slider {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    display: flex;
+    scrollbar-width: none;
+}
+.achievement-slider::-webkit-scrollbar { display: none; }
+
+/*  Track */
+.achievement-track {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Achievement Cards */
 .achievement-box {
-    min-width: 32%; /* 3 visible at a time */
+    scroll-snap-align: center;
     background: #000;
     color: var(--gold);
     padding: 22px;
@@ -254,24 +277,31 @@ header {
     border: 2px solid var(--gold-dark);
     font-size: 1.1rem;
     font-weight: 600;
-    scroll-snap-align: center;
-}
-.achievement-box i {
-    font-size: 1.7rem;
-    margin-bottom: 8px;
+    width: 32%;  /* Desktop default */
+    min-width: 32%;
 }
 
-/* Auto-scroll animation */
-@keyframes autoScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+/* Tablet View */
+@media(max-width: 1024px) {
+    .achievement-box {
+        width: 48%;
+        min-width: 48%;
+    }
 }
 
-/* Fade gradient edges (premium UI) */
+/* Mobile View */
+@media(max-width: 768px) {
+    .achievement-box {
+        width: 85%;
+        min-width: 85%;
+    }
+}
+
+/* Faded Edge Effects */
 .fade-left, .fade-right {
     position: absolute;
     top: 0; bottom: 0;
-    width: 80px;
+    width: 70px;
     pointer-events: none;
     z-index: 5;
 }
@@ -284,7 +314,7 @@ header {
     background: linear-gradient(to left, var(--bg), transparent);
 }
 
-/* Left/Right navigation arrows */
+/* Arrows */
 .ach-arrow {
     position: absolute;
     top: 50%;
@@ -294,16 +324,14 @@ header {
     font-size: 1.6rem;
     border: 2px solid var(--gold-dark);
     border-radius: 50%;
-    padding: 12px;
+    padding: 10px;
     cursor: pointer;
     z-index: 10;
 }
-.ach-arrow.left { left: 10px; }
-.ach-arrow.right { right: 10px; }
-.ach-arrow:hover {
-    background: var(--gold-dark);
-    color: #000;
-}
+.ach-arrow.left { left: 5px; }
+.ach-arrow.right { right: 5px; }
+
+
 footer {
     background: #000;
     color: #fff;
@@ -665,53 +693,45 @@ function closeModal() {
     contactModal.style.display = "none";
 }
 
-
-// ===== ACHIEVEMENT CAROUSEL =====
-
-// Elements
 const slider = document.getElementById("achSlider");
-const track = document.getElementById("achTrack");
-const btnPrev = document.getElementById("achPrev");
-const btnNext = document.getElementById("achNext");
 
-// Duplicate nodes to ensure infinite loop
-function cloneForLoop() {
-    const items = [...track.children];
-    items.forEach(item => {
-        track.appendChild(item.cloneNode(true));
-    });
+/* Auto-scroll speed */
+let speed = 1;
+let loop;
+
+/* Start auto loop */
+function startLoop() {
+    loop = setInterval(() => {
+        slider.scrollLeft += speed;
+
+        // Loop back to start
+        if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 2) {
+            slider.scrollLeft = 0;
+        }
+    }, 20);
 }
-cloneForLoop();
 
-
-// Auto-scroll
-let autoScrollSpeed = 1; // px per frame
-let autoScrolling = true;
-
-function autoScroll() {
-    if (autoScrolling) slider.scrollLeft += autoScrollSpeed;
-
-    // Loop when reaching end
-    if (slider.scrollLeft >= track.scrollWidth / 2) {
-        slider.scrollLeft = 0;
-    }
-    requestAnimationFrame(autoScroll);
+/* Stop loop on manual touch/drag */
+function stopLoop() {
+    clearInterval(loop);
 }
-autoScroll();
 
+/* Resume after interaction */
+slider.addEventListener("mousedown", stopLoop);
+slider.addEventListener("touchstart", stopLoop);
+slider.addEventListener("mouseup", startLoop);
+slider.addEventListener("touchend", startLoop);
 
-// Pause on hover
-slider.addEventListener("mouseenter", () => autoScrolling = false);
-slider.addEventListener("mouseleave", () => autoScrolling = true);
+/* Arrow controls */
+document.getElementById("achNext").onclick = () => {
+    slider.scrollLeft += slider.clientWidth * 0.8;
+};
+document.getElementById("achPrev").onclick = () => {
+    slider.scrollLeft -= slider.clientWidth * 0.8;
+};
 
+startLoop();
 
-// Manual arrow controls
-btnNext.addEventListener("click", () => {
-    slider.scrollLeft += slider.clientWidth / 2;
-});
-btnPrev.addEventListener("click", () => {
-    slider.scrollLeft -= slider.clientWidth / 2;
-});
 </script>
 
 </body>
