@@ -613,21 +613,18 @@ footer {
 <footer>
     © 2025 Prem Swaroopa Nanda Ramalingam
 </footer>
-
 <script>
-/* Fade-in animation on scroll */
+// Fade-in animation
 const fadeElements = document.querySelectorAll(".fade-in");
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-        }
+        if (entry.isIntersecting) entry.target.classList.add("visible");
     });
 }, { threshold: 0.2 });
-
 fadeElements.forEach(el => observer.observe(el));
 
-/* Floating profile + section title */
+
+// Floating profile + dynamic sticky header text
 const sections = [
     { id: "welcome", name: "Welcome" },
     { id: "summary", name: "Summary" },
@@ -650,109 +647,69 @@ window.addEventListener("scroll", () => {
         let el = document.getElementById(s.id);
         if (scrollPos >= el.offsetTop) active = s;
     }
-
     headerLabel.textContent = active.name;
 
-    if (scrollPos > document.getElementById("summary").offsetTop) {
-        floatProfile.style.display = "flex";
-    } else {
-        floatProfile.style.display = "none";
-    }
+    floatProfile.style.display =
+        scrollPos > document.getElementById("summary").offsetTop
+        ? "flex" : "none";
 });
 
-/* Modal */
+
+// Modal
 floatProfile.addEventListener("click", () => {
     contactModal.style.display = "flex";
 });
 function closeModal() {
     contactModal.style.display = "none";
-
-}
-/* Wrapper for whole carousel */
-.ach-wrapper {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    margin-top: 20px;
 }
 
-/* Main scroll container */
-.achievement-slider {
-    position: relative;
-    overflow-x: scroll;
-    scrollbar-width: none;
-    scroll-snap-type: x mandatory; /* snap to center */
-}
-.achievement-slider::-webkit-scrollbar { display: none; }
 
-/* Track containing boxes */
-.achievement-track {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-    animation: autoScroll 25s linear infinite; /* auto sliding */
-}
+// ===== ACHIEVEMENT CAROUSEL =====
 
-/* Single achievement card */
-.achievement-box {
-    min-width: 32%; /* 3 visible at a time */
-    background: #000;
-    color: var(--gold);
-    padding: 22px;
-    border-radius: 12px;
-    border: 2px solid var(--gold-dark);
-    font-size: 1.1rem;
-    font-weight: 600;
-    scroll-snap-align: center;
-}
-.achievement-box i {
-    font-size: 1.7rem;
-    margin-bottom: 8px;
-}
+// Elements
+const slider = document.getElementById("achSlider");
+const track = document.getElementById("achTrack");
+const btnPrev = document.getElementById("achPrev");
+const btnNext = document.getElementById("achNext");
 
-/* Auto-scroll animation */
-@keyframes autoScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+// Duplicate nodes to ensure infinite loop
+function cloneForLoop() {
+    const items = [...track.children];
+    items.forEach(item => {
+        track.appendChild(item.cloneNode(true));
+    });
 }
+cloneForLoop();
 
-/* Fade gradient edges (premium UI) */
-.fade-left, .fade-right {
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 80px;
-    pointer-events: none;
-    z-index: 5;
-}
-.fade-left {
-    left: 0;
-    background: linear-gradient(to right, var(--bg), transparent);
-}
-.fade-right {
-    right: 0;
-    background: linear-gradient(to left, var(--bg), transparent);
-}
 
-/* Left/Right navigation arrows */
-.ach-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #000;
-    color: var(--gold);
-    font-size: 1.6rem;
-    border: 2px solid var(--gold-dark);
-    border-radius: 50%;
-    padding: 12px;
-    cursor: pointer;
-    z-index: 10;
+// Auto-scroll
+let autoScrollSpeed = 1; // px per frame
+let autoScrolling = true;
+
+function autoScroll() {
+    if (autoScrolling) slider.scrollLeft += autoScrollSpeed;
+
+    // Loop when reaching end
+    if (slider.scrollLeft >= track.scrollWidth / 2) {
+        slider.scrollLeft = 0;
+    }
+    requestAnimationFrame(autoScroll);
 }
-.ach-arrow.left { left: 10px; }
-.ach-arrow.right { right: 10px; }
-.ach-arrow:hover {
-    background: var(--gold-dark);
-    color: #000;
-}
+autoScroll();
+
+
+// Pause on hover
+slider.addEventListener("mouseenter", () => autoScrolling = false);
+slider.addEventListener("mouseleave", () => autoScrolling = true);
+
+
+// Manual arrow controls
+btnNext.addEventListener("click", () => {
+    slider.scrollLeft += slider.clientWidth / 2;
+});
+btnPrev.addEventListener("click", () => {
+    slider.scrollLeft -= slider.clientWidth / 2;
+});
 </script>
 
 </body>
