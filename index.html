@@ -327,12 +327,13 @@ header .hero-inner {
     border: 1px solid rgba(234, 179, 8, 0.35);
 }
 
-/* Achievements – wrapper */
+/* Achievements Section – improved layout */
 .ach-wrapper {
     position: relative;
     width: 100%;
     overflow: hidden;
-    margin-top: 26px;
+    margin-top: 36px;
+    padding: 0 30px;
 }
 
 /* Scrollable area */
@@ -341,6 +342,7 @@ header .hero-inner {
     scroll-snap-type: x mandatory;
     display: flex;
     scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 .achievement-slider::-webkit-scrollbar {
     display: none;
@@ -349,45 +351,76 @@ header .hero-inner {
 /* Track with achievements */
 .achievement-track {
     display: flex;
-    gap: 18px;
-    padding: 18px 24px 22px;
+    gap: 24px;
+    padding: 20px 0 25px;
+    align-items: stretch;
 }
 
-/* Single achievement card */
+/* Single achievement card – larger, modern */
 .achievement-box {
     scroll-snap-align: center;
-    background: rgba(15, 23, 42, 0.93);
+    flex: 0 0 340px;
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
     color: var(--gold-soft);
-    padding: 18px 18px 16px;
-    border-radius: 16px;
+    padding: 20px 22px;
+    border-radius: 14px;
     border: 1px solid rgba(234, 179, 8, 0.45);
-    font-size: 0.98rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    width: 32%;
-    min-width: 32%;
     box-shadow:
-        0 16px 40px rgba(0, 0, 0, 0.8),
-        0 0 0 1px rgba(15, 23, 42, 0.9);
+        0 10px 25px rgba(0, 0, 0, 0.65),
+        inset 0 0 10px rgba(234, 179, 8, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .achievement-box i {
-    font-size: 1.5rem;
-    margin-bottom: 8px;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
     display: block;
 }
-
-/* Tablet */
-@media (max-width: 1024px) {
-    .achievement-box {
-        width: 48%;
-        min-width: 48%;
-    }
+.achievement-box:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 18px 35px rgba(0, 0, 0, 0.8),
+        0 0 12px rgba(234, 179, 8, 0.25);
 }
 
-/* Mobile */
+/* Arrows */
+.ach-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(15, 23, 42, 0.95);
+    color: var(--gold-soft);
+    font-size: 1.4rem;
+    border: 1px solid rgba(234, 179, 8, 0.5);
+    border-radius: 999px;
+    padding: 10px 12px;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.75);
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.ach-arrow.left {
+    left: 10px;
+}
+.ach-arrow.right {
+    right: 10px;
+}
+.ach-arrow:hover {
+    background: rgba(250, 204, 21, 0.18);
+    color: var(--gold);
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+    .achievement-box {
+        flex: 0 0 70%;
+    }
+}
 @media (max-width: 768px) {
     .achievement-box {
-        width: 85%;
-        min-width: 85%;
+        flex: 0 0 85%;
+        font-size: 1rem;
     }
 }
 
@@ -499,9 +532,17 @@ footer {
         <p class="hero-subtitle">Software Engineer · Cloud & Data · Applied Machine Learning</p>
 
         <div class="contact-info">
-            <div><i class="fas fa-map-marker-alt"></i> Chicago, IL</div>
-            <div><i class="fas fa-phone"></i> 312-730-7277</div>
-            <div><i class="fas fa-envelope"></i> Ramlingam.prem@gmail.com</div>
+            <div>
+                <i class="fas fa-map-marker-alt"></i> Chicago, IL
+            </div>
+            <div>
+                <i class="fas fa-phone"></i>
+                <a href="tel:+13127307277">312-730-7277</a>
+            </div>
+            <div>
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:Ramlingam.prem@gmail.com">Ramlingam.prem@gmail.com</a>
+            </div>
             <div>
                 <i class="fab fa-linkedin"></i>
                 <a href="https://www.linkedin.com/in/prem-ramalingam-81b35238b" target="_blank">LinkedIn</a>
@@ -544,7 +585,7 @@ footer {
         <div class="card fade-in">
             <div class="card-title">Master of Science, Computer Science</div>
             <div class="card-sub">Governors State University</div>
-            <div class="card-meta">AUG 2025 – Present · Chicago, IL · GPA: 3.0</div>
+            <div class="card-meta">AUG 2025 – Present · Chicago, IL · GPA: 3.5</div>
         </div>
 
         <div class="card fade-in">
