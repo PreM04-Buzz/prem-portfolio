@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prem Swaroopa Nanda Ramalingam - Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+<style>
+:root {
+    --bg: #020617;
+    --bg-soft: #0b1120;
+    --glass: rgba(15, 23, 42, 0.7);
+    --border-soft: rgba(248, 250, 252, 0.08);
+    --black: #000000;
+    --gold: #fbbf24;
+    --gold-soft: #facc15;
+    --gold-dark: #d97706;
+    --text-light: #f9fafb;
+    --text-muted: #9ca3af;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(248, 250, 252, 0.02), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(234, 179, 8, 0.18), transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(234, 179, 8, 0.22), transparent 60%),
+        linear-gradient(135deg, #020617, #020617 40%, #0b1120 70%, #020617 100%);
+    color: var(--text-light);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Layout helper */
+.container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Fade-in animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.9s ease-out;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Sticky header – shows current section */
+.sticky-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(18px);
+    color: var(--gold-soft);
+    text-align: center;
+    padding: 10px 0;
+    z-index: 1000;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+/* Floating mini-profile */
+.floating-profile {
+    position: fixed;
+    top: 60px;
+    right: 16px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    background: radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.3), transparent 55%),
+                rgba(15, 23, 42, 0.94);
+    padding: 8px 14px;
+    border-radius: 999px;
+    color: var(--gold-soft);
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 2000;
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(148, 163, 184, 0.45);
+}
+.floating-profile img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--gold-soft);
+    object-fit: cover;
+}
+.floating-profile span {
+    font-size: 0.86rem;
+}
+
+/* Modal overlay */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.88);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+/* Modal card */
+.modal-content {
+    background: radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.20), transparent 55%),
+                rgba(15, 23, 42, 0.96);
+    color: var(--text-light);
+    padding: 26px 22px 20px;
+    border-radius: 18px;
+    width: 90%;
+    max-width: 430px;
+    text-align: center;
+    border: 1px solid var(--border-soft);
+    box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(234, 179, 8, 0.25);
+}
+.modal-content h2 {
+    font-size: 1.35rem;
+    margin-bottom: 16px;
+    color: var(--gold-soft);
+}
+
+/* Modal buttons */
+.modal-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: rgba(15, 23, 42, 0.9);
+    color: var(--gold-soft);
+    padding: 11px 12px;
+    border-radius: 999px;
+    margin: 6px 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid rgba(234, 179, 8, 0.55);
+    text-decoration: none;
+}
+.modal-btn i {
+    font-size: 1rem;
+}
+.modal-btn:hover {
+    background: rgba(250, 204, 21, 0.12);
+    color: var(--gold);
+}
+.close-btn {
+    margin-top: 14px;
+    background: rgba(31, 41, 55, 0.95);
+    padding: 10px 12px;
+    border-radius: 999px;
+    color: #e5e7eb;
+    font-size: 0.9rem;
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    cursor: pointer;
+}
+
+/* Header / hero */
+header {
+    padding-top: 100px;
+    min-height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(250, 204, 21, 0.22), transparent 55%),
+        radial-gradient(circle at 85% 0%, rgba(15, 23, 42, 0.8), transparent 55%),
+        #020617;
+    text-align: center;
+    color: var(--text-light);
+}
+
+header .hero-inner {
+    max-width: 720px;
+    padding: 0 20px;
+}
+
+.profile-photo {
+    width: 160px;
+    height: 160px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 3px solid rgba(250, 204, 21, 0.8);
+    box-shadow:
+        0 0 0 6px rgba(15, 23, 42, 0.95),
+        0 22px 45px rgba(0, 0, 0, 0.9);
+}
+
+.profile-name {
+    margin-top: 1.3rem;
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.hero-subtitle {
+    margin-top: 0.35rem;
+    font-size: 0.98rem;
+    color: var(--text-muted);
+}
+
+/* Inline contact row under hero */
+.contact-info {
+    margin-top: 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.1rem;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+.contact-info i {
+    color: var(--gold-soft);
+    margin-right: 6px;
+}
+.contact-info a {
+    color: var(--gold-soft);
+    text-decoration: none;
+    font-weight: 500;
+}
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+/* Sections */
+.fullscreen-section {
+    padding: 65px 20px 60px;
+    min-height: 65vh;
+}
+
+.section-title {
+    font-size: 2.1rem;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #e5e7eb;
+}
+.section-title::after {
+    content: "";
+    display: block;
+    width: 110px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+    margin: 12px auto 24px;
+    border-radius: 999px;
+}
+
+/* Summary text */
+.summary-text {
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    text-align: center;
+    color: #e5e7eb;
+}
+
+/* Glass card */
+.card {
+    background: var(--glass);
+    padding: 1.5rem 1.6rem;
+    border-radius: 18px;
+    border: 1px solid var(--border-soft);
+    margin-bottom: 1.1rem;
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(15, 23, 42, 0.85);
+}
+.card-title {
+    font-size: 1.08rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+    color: #f9fafb;
+}
+.card-sub {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--gold-soft);
+}
+.card-meta {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+/* Responsibilities list */
+.responsibilities {
+    margin-top: 6px;
+}
+.responsibilities li {
+    margin-left: 1.15rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.96rem;
+    color: #e5e7eb;
+}
+
+/* Skills tags */
+.skill-tag {
+    display: inline-block;
+    background: rgba(15, 23, 42, 0.9);
+    color: var(--gold-soft);
+    padding: 6px 13px;
+    border-radius: 999px;
+    margin: 4px 4px 2px;
+    font-size: 0.83rem;
+    border: 1px solid rgba(234, 179, 8, 0.35);
+}
+
+/* Achievements Section – full width, no fades */
+.ach-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 36px;
+    padding: 0;
+}
+
+/* Scrollable area */
+.achievement-slider {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    display: flex;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.achievement-slider::-webkit-scrollbar {
+    display: none;
+}
+
+/* Track with achievements */
+.achievement-track {
+    display: flex;
+    gap: 28px;
+    padding: 25px 40px;
+    align-items: stretch;
+}
+
+/* Single achievement card – same look, bigger spacing */
+.achievement-box {
+    scroll-snap-align: start;
+    flex: 0 0 360px;
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+    color: var(--gold-soft);
+    padding: 22px 24px;
+    border-radius: 14px;
+    border: 1px solid rgba(234, 179, 8, 0.45);
+    font-size: 1.05rem;
+    font-weight: 600;
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.65),
+        inset 0 0 10px rgba(234, 179, 8, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.achievement-box i {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    display: block;
+}
+.achievement-box:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 18px 35px rgba(0, 0, 0, 0.8),
+        0 0 12px rgba(234, 179, 8, 0.25);
+}
+
+/* Remove fades completely */
+.fade-left,
+.fade-right {
+    display: none !important;
+}
+
+/* Arrows */
+.ach-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(15, 23, 42, 0.95);
+    color: var(--gold-soft);
+    font-size: 1.4rem;
+    border: 1px solid rgba(234, 179, 8, 0.5);
+    border-radius: 999px;
+    padding: 10px 12px;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.75);
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.ach-arrow.left {
+    left: 20px;
+}
+.ach-arrow.right {
+    right: 20px;
+}
+.ach-arrow:hover {
+    background: rgba(250, 204, 21, 0.18);
+    color: var(--gold);
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+    .achievement-box {
+        flex: 0 0 70%;
+    }
+}
+@media (max-width: 768px) {
+    .achievement-box {
+        flex: 0 0 85%;
+        font-size: 1rem;
+    }
+}
+
+/* Footer */
+footer {
+    background: #020617;
+    color: #9ca3af;
+    padding: 24px;
+    text-align: center;
+    border-top: 1px solid rgba(30, 64, 175, 0.5);
+    margin-top: 35px;
+    font-size: 0.86rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .profile-name {
+        font-size: 2.1rem;
+    }
+    .section-title {
+        font-size: 1.9rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="sticky-header" id="currentSection">Welcome</div>
+
+<!-- Floating profile -->
+<div class="floating-profile" id="floatProfile">
+    <img src="IMG_183.jpg" alt="Prem mini" />
+    <span>Prem Swaroopa Nanda</span>
+</div>
+
+<!-- Contact Modal -->
+<div class="modal" id="contactModal">
+    <div class="modal-content">
+        <h2>Contact Details</h2>
+
+        <a class="modal-btn" href="tel:3127307277">
+            <i class="fas fa-phone"></i> 312-730-7277
+        </a>
+
+        <a class="modal-btn" href="mailto:Ramlingam.prem@gmail.com">
+            <i class="fas fa-envelope"></i> Email</a>
+
+        <a class="modal-btn" href="https://www.linkedin.com/in/prem-ramalingam-81b35238b" target="_blank">
+            <i class="fab fa-linkedin"></i> LinkedIn</a>
+
+        <a class="modal-btn" href="Resume_PR.pdf" download>
+            <i class="fas fa-file-download"></i> Download Resume</a>
+
+        <div class="close-btn" onclick="closeModal()">Close</div>
+    </div>
+</div>
+
+<!-- Hero / Welcome -->
+<header id="welcome" class="fade-in">
+    <div class="hero-inner">
+        <img src="IMG_183.jpg" class="profile-photo" alt="Prem Swaroopa Nanda" />
+        <h1 class="profile-name">PREM SWAROOPA NANDA RAMALINGAM</h1>
+        <p class="hero-subtitle">Software Engineer · Cloud & Data · Applied Machine Learning</p>
+
+        <div class="contact-info">
+            <div>
+                <i class="fas fa-map-marker-alt"></i> Chicago, IL
+            </div>
+            <div>
+                <i class="fas fa-phone"></i>
+                <a href="tel:+13127307277">312-730-7277</a>
+            </div>
+            <div>
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:Ramlingam.prem@gmail.com">Ramlingam.prem@gmail.com</a>
+            </div>
+            <div>
+                <i class="fab fa-linkedin"></i>
+                <a href="https://www.linkedin.com/in/prem-ramalingam-81b35238b" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Summary -->
+<section class="fullscreen-section fade-in" id="summary">
+    <h2 class="section-title">Summary</h2>
+    <p class="summary-text">
+        I am a Computer Science graduate student driven by strong attention to detail, with a solid
+        background in software engineering, cloud technologies, and applied machine learning. I enjoy building
+        scalable systems, designing simple and intuitive user experiences, and applying data-driven methods to
+        solve complex technical challenges. My professional experience at HCL Technologies strengthened my
+        expertise in cloud data pipelines, automation, and system performance optimization, while my academic
+        projects expanded my capabilities in deep learning, reinforcement learning, and mobile application development.
+        <br><br>
+        I have extensive hands-on experience with AWS (S3, Glue ETL, RedShift, SNS, DynamoDB) and GCP
+        services (GCS, BigQuery, Dataflow, Firestore), enabling me to design efficient, reliable, and high-throughput
+        data workflows. I am also proficient in Python, Java, and SQL, with a strong foundation in building modular,
+        scalable, and maintainable software architectures.
+        <br><br>
+        Beyond cloud and ML engineering, I am experienced in UX design, wireframing, and creating user-friendly
+        interfaces for real-world applications. Some of my notable projects include MobileNetV2-based object
+        detection, an academic planning mobile application, and a reinforcement-learning-based requirement-prioritization model.
+        <br><br>
+        I am passionate about continuous learning, user-focused design, and developing technology solutions that
+        create measurable impact. I am actively seeking opportunities where I can contribute across software
+        engineering, data engineering, and AI-driven product development.
+    </p>
+</section>
+
+<!-- Education -->
+<section class="fullscreen-section fade-in" id="education">
+    <h2 class="section-title">Education</h2>
+
+    <div class="container">
+        <div class="card fade-in">
+            <div class="card-title">Master of Science, Computer Science</div>
+            <div class="card-sub">Governors State University</div>
+            <div class="card-meta">AUG 2025 – Present · Chicago, IL · GPA: 3.5</div>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">Bachelor of Technology</div>
+            <div class="card-sub">Siddharth Institute of Engineering and Technology</div>
+            <div class="card-meta">MAY 2020 · Puttur, India · GPA: 8.15</div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills -->
+<section class="fullscreen-section fade-in" id="skills">
+    <h2 class="section-title">Skills</h2>
+
+    <div class="container">
+        <div class="card fade-in">
+            <div class="card-title">Deep Learning</div>
+            <span class="skill-tag">Transformers</span>
+            <span class="skill-tag">BERT-Style Models</span>
+            <span class="skill-tag">CNN</span>
+            <span class="skill-tag">RNN</span>
+            <span class="skill-tag">LSTM</span>
+            <span class="skill-tag">GRU</span>
+            <span class="skill-tag">GANs</span>
+            <span class="skill-tag">Attention Mechanisms</span>
+            <span class="skill-tag">Reinforcement Learning</span>
+            <span class="skill-tag">Policy Optimization</span>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">ML Frameworks</div>
+            <span class="skill-tag">PyTorch</span>
+            <span class="skill-tag">TensorFlow</span>
+            <span class="skill-tag">Keras</span>
+            <span class="skill-tag">ONNX</span>
+            <span class="skill-tag">HuggingFace</span>
+            <span class="skill-tag">Scikit-Learn</span>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">Research & Experimentation</div>
+            <span class="skill-tag">Experiment Design</span>
+            <span class="skill-tag">Benchmarking</span>
+            <span class="skill-tag">Evaluation Metrics</span>
+            <span class="skill-tag">Ablation Studies</span>
+            <span class="skill-tag">Model Interpretability</span>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">Core ML & Optimization</div>
+            <span class="skill-tag">Optimization</span>
+            <span class="skill-tag">Quantization</span>
+            <span class="skill-tag">Pruning</span>
+            <span class="skill-tag">Distillation</span>
+            <span class="skill-tag">Mixed-Precision Training</span>
+            <span class="skill-tag">INT8/FP16 Inference</span>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">NLP & Computer Vision</div>
+            <span class="skill-tag">Tokenization</span>
+            <span class="skill-tag">Embeddings</span>
+            <span class="skill-tag">Multimodal Learning</span>
+            <span class="skill-tag">Object Detection</span>
+            <span class="skill-tag">Image Augmentation</span>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">Programming</div>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">C/C++ (basic)</span>
+            <span class="skill-tag">Go (beginner)</span>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">Systems & Data</div>
+            <span class="skill-tag">BigQuery</span>
+            <span class="skill-tag">DynamoDB</span>
+            <span class="skill-tag">SQL Server</span>
+            <span class="skill-tag">Dataflow</span>
+            <span class="skill-tag">Firestore</span>
+            <span class="skill-tag">RedShift</span>
+            <span class="skill-tag">S3/Glue</span>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">Tools & Practices</div>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Kubernetes</span>
+            <span class="skill-tag">API Development</span>
+            <span class="skill-tag">Jira</span>
+            <span class="skill-tag">Linux (system-level)</span>
+            <span class="skill-tag">Agile / Scrum</span>
+        </div>
+    </div>
+</section>
+
+<!-- Work Experience -->
+<section class="fullscreen-section fade-in" id="experience">
+    <h2 class="section-title">Work Experience</h2>
+
+    <div class="container">
+        <div class="card fade-in">
+            <div class="card-title">AI REQUIREMENT PRIORITIZATION USING GRAPH REINFORCEMENT LEARNING</div>
+            <div class="card-sub">Graduate Research Project – Governors State University</div>
+            <div class="card-meta">AUG 2025 – Present · Chicago, IL</div>
+            <ul class="responsibilities">
+                <li>Constructed requirement graphs using perplexity and probability metrics to model feature relationships and release constraints.</li>
+                <li>Developed a Deep Q-Learning agent to prioritize requirements for dynamic release planning under shifting stakeholder needs.</li>
+                <li>Evaluated the framework on datasets from Zoom, Webex, Teams, Word, Excel, and PowerPoint to compare prioritization quality.</li>
+                <li>Analyzed trade-offs between value, risk, and effort, producing visual reports suitable for product and engineering teams.</li>
+            </ul>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">SOFTWARE ENGINEER</div>
+            <div class="card-sub">HCL Technologies – Chennai, India</div>
+            <div class="card-meta">NOV 2021 – AUG 2023</div>
+            <ul class="responsibilities">
+                <li>Built and optimized production data pipelines using AWS S3, Glue ETL, RedShift, and SNS for large-scale client deployments.</li>
+                <li>Automated repetitive cloud workflows with Python, reducing manual effort and improving operational reliability.</li>
+                <li>Improved performance of GCS → BigQuery pipelines by tuning partitioning, clustering, and storage layouts.</li>
+                <li>Worked with Dataflow and Firestore to manage streaming and batch workloads for analytics and reporting use cases.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Projects -->
+<section class="fullscreen-section fade-in" id="projects">
+    <h2 class="section-title">Projects</h2>
+
+    <div class="container">
+        <div class="card fade-in">
+            <div class="card-title">MobileNetV2-Based Object Detection</div>
+            <div class="card-sub">JAN 2025 – MAR 2025</div>
+            <ul class="responsibilities">
+                <li>Built an object detection pipeline over 9,963 images spanning 20 categories using MobileNetV2.</li>
+                <li>Applied mixed-precision training and regularization to improve throughput and training stability.</li>
+                <li>Achieved strong precision and F1-score while keeping the model deployable on limited-resource environments.</li>
+                <li>Documented experiments, hyperparameters, and results for reproducible model comparisons.</li>
+            </ul>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">Innovative UX Design – UniLife Hub</div>
+            <div class="card-sub">JAN 2024 – MAR 2024</div>
+            <ul class="responsibilities">
+                <li>Designed a student-centric UX for managing academics, campus life, and career planning.</li>
+                <li>Led user research, storyboarding, and wireframing to understand pain points and priorities.</li>
+                <li>Created interactive prototypes and measured usability using completion rate and time-on-task metrics.</li>
+                <li>Iterated on UI components based on feedback from students and faculty reviewers.</li>
+            </ul>
+        </div>
+
+        <div class="card fade-in">
+            <div class="card-title">HawkGen Mobile Application</div>
+            <div class="card-sub">AUG 2023 – DEC 2023</div>
+            <ul class="responsibilities">
+                <li>Developed a modular mobile app to help students plan courses, track tasks, and manage deadlines.</li>
+                <li>Designed reusable components and feature modules to reduce duplicated code and simplify updates.</li>
+                <li>Collaborated with teammates on feature prioritization, bug tracking, and sprint reviews.</li>
+                <li>Achieved ~15% reduction in development time through improved architecture and component reuse.</li>
+            </ul>
+        </div>
+    </div>
+<!-- Achievements -->
+<section class="fullscreen-section fade-in" id="achievements">
+    <h2 class="section-title">Achievements</h2>
+    <div class="ach-wrapper">
+        <!-- Left arrow -->
+        <button class="ach-arrow left" id="achPrev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <!-- Scrollable carousel -->
+        <div class="achievement-slider" id="achSlider">
+            <div class="achievement-track" id="achTrack">
+                <div class="achievement-box"><i class="fas fa-trophy"></i> Improved cloud data workflows at HCL, reducing manual work by ~40%.</div>
+                <div class="achievement-box"><i class="fas fa-star"></i> Recognized for high-usability UX prototypes ranked among top submissions.</div>
+                <div class="achievement-box"><i class="fas fa-bolt"></i> Enhanced performance of large GCS → BigQuery pipelines by ~20%.</div>
+                <div class="achievement-box"><i class="fas fa-chart-line"></i> Built scalable cloud data models that improved processing speed by ~30%.</div>
+                <div class="achievement-box"><i class="fas fa-robot"></i> Designed ML-based automation scripts that reduced repetitive engineering tasks by ~25%.</div>
+                <div class="achievement-box"><i class="fas fa-cloud-upload-alt"></i> Delivered zero-downtime migrations from on-prem datasets to AWS & GCP with verified accuracy.</div>
+                <div class="achievement-box"><i class="fas fa-users-cog"></i> Collaborated with cross-functional teams to ship cloud pipeline enhancements ahead of schedule.</div>
+                <div class="achievement-box"><i class="fas fa-shield-alt"></i> Implemented secure data-handling workflows aligned with internal security standards.</div>
+                <div class="achievement-box"><i class="fas fa-lightbulb"></i> Proposed cloud cost optimizations, reducing storage and compute spend by ~18%.</div>
+            </div>
+        </div>
+
+        <!-- Right arrow -->
+        <button class="ach-arrow right" id="achNext">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</section>
+
+<footer>
+    © 2025 Prem Swaroopa Nanda Ramalingam
+</footer>
+
+<script>
+/* Fade-in on scroll */
+const fadeElements = document.querySelectorAll(".fade-in");
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+    });
+}, { threshold: 0.2 });
+fadeElements.forEach(el => observer.observe(el));
+
+/* Sticky header label + floating profile visibility */
+const sections = [
+    { id: "welcome", name: "Welcome" },
+    { id: "summary", name: "Summary" },
+    { id: "education", name: "Education" },
+    { id: "skills", name: "Skills" },
+    { id: "experience", name: "Work Experience" },
+    { id: "projects", name: "Projects" },
+    { id: "achievements", name: "Achievements" }
+];
+
+const headerLabel = document.getElementById("currentSection");
+const floatProfile = document.getElementById("floatProfile");
+const contactModal = document.getElementById("contactModal");
+
+window.addEventListener("scroll", () => {
+    const scrollPos = window.scrollY + 200;
+    let active = sections[0];
+
+    for (const s of sections) {
+        const el = document.getElementById(s.id);
+        if (el && scrollPos >= el.offsetTop) active = s;
+    }
+
+    headerLabel.textContent = active.name;
+
+    floatProfile.style.display =
+        scrollPos > document.getElementById("summary").offsetTop ? "flex" : "none";
+});
+
+/* Contact modal open/close */
+floatProfile.addEventListener("click", () => {
+    contactModal.style.display = "flex";
+});
+function closeModal() {
+    contactModal.style.display = "none";
+}
+
+/* Achievements carousel – auto scroll + manual + arrows + hover pause */
+const slider = document.getElementById("achSlider");
+const track = document.getElementById("achTrack");
+const btnNext = document.getElementById("achNext");
+const btnPrev = document.getElementById("achPrev");
+
+let speed = 1;          // pixels per tick
+let loopId = null;
+
+function startLoop() {
+    if (loopId !== null) return;
+    loopId = setInterval(() => {
+        slider.scrollLeft += speed;
+        // reset for infinite effect
+        if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 2) {
+            slider.scrollLeft = 0;
+        }
+    }, 20);
+}
+
+function stopLoop() {
+    if (loopId !== null) {
+        clearInterval(loopId);
+        loopId = null;
+    }
+}
+
+/* Pause on hover / touch; resume on leave */
+slider.addEventListener("mouseenter", stopLoop);
+slider.addEventListener("mouseleave", startLoop);
+slider.addEventListener("mousedown", stopLoop);
+slider.addEventListener("touchstart", stopLoop, { passive: true });
+slider.addEventListener("mouseup", startLoop);
+slider.addEventListener("touchend", startLoop);
+
+/* Arrow controls scroll by ~80% width */
+btnNext.addEventListener("click", () => {
+    slider.scrollLeft += slider.clientWidth * 0.8;
+});
+btnPrev.addEventListener("click", () => {
+    slider.scrollLeft -= slider.clientWidth * 0.8;
+});
+
+/* Kick off auto-scrolling */
+startLoop();
+</script>
+
+</body>
+</html>
+
