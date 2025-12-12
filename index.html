@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Prem Swaroopa Nanda Ramalingam - Portfolio</title>
 
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 
@@ -193,6 +199,11 @@ header {
 header .hero-inner {
     max-width: 720px;
     padding: 0 20px;
+}
+
+.hero-inner {
+    position: relative;
+    z-index: 2;
 }
 
 .profile-photo {
@@ -430,6 +441,54 @@ header .hero-inner {
     }
 }
 
+/* FLOAT AREA BASE */
+.skill-float-area {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* LEFT SIDE */
+.skill-float-area.left {
+  left: 0;
+  width: 45%;
+}
+
+/* RIGHT SIDE */
+.skill-float-area.right {
+  right: 0;
+  width: 45%;
+}
+
+/* ICON */
+.skill {
+  position: absolute;
+  font-size: 2.4rem;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.45),
+    inset 0 0 12px rgba(255, 255, 255, 0.12);
+  will-change: transform;
+}
+
+/* BRAND COLORS */
+.python { color: #3776AB; }
+.java { color: #E76F00; }
+.aws { color: #FF9900; }
+.gcp { color: #4285F4; }
+.docker { color: #2496ED; }
+.react { color: #61DAFB; }
+.js { color: #F7DF1E; }
+.linux { color: #FCC624; }
+.github { color: #ffffff; }
+
+
 /* Footer */
 footer {
     background: #020617;
@@ -487,6 +546,28 @@ footer {
 
 <!-- Hero / Welcome -->
 <header id="welcome" class="fade-in">
+
+<!-- LEFT FLOATING AREA -->
+<div class="skill-float-area left">
+    <div class="skill-icons">
+        <i class="fab fa-python skill python"></i>
+        <i class="fab fa-java skill java"></i>
+        <i class="fab fa-docker skill docker"></i>
+        <i class="fab fa-linux skill linux"></i>
+    </div>
+</div>
+
+<!-- RIGHT FLOATING AREA -->
+<div class="skill-float-area right">
+    <div class="skill-icons">
+        <i class="fab fa-aws skill aws"></i>
+        <i class="fab fa-google skill gcp"></i>
+        <i class="fab fa-react skill react"></i>
+        <i class="fab fa-js skill js"></i>
+        <i class="fab fa-github skill github"></i>
+    </div>
+</div>
+
     <div class="hero-inner">
         <img src="IMG_183.jpg" class="profile-photo" alt="Prem Swaroopa Nanda" />
         <h1 class="profile-name">PREM SWAROOPA NANDA RAMALINGAM</h1>
@@ -523,7 +604,7 @@ footer {
         expertise in cloud data pipelines, automation, and system performance optimization, while my academic
         projects expanded my capabilities in deep learning, reinforcement learning, and mobile application development.
         <br><br>
-        I have extensive hands-on experience with AWS (S3, Glue ETL, RedShift, SNS, DynamoDB) and GCP
+        I have hands-on experience with AWS (S3, Glue ETL, RedShift, SNS, DynamoDB) and GCP
         services (GCS, BigQuery, Dataflow, Firestore), enabling me to design efficient, reliable, and high-throughput
         data workflows. I am also proficient in Python, Java, and SQL, with a strong foundation in building modular,
         scalable, and maintainable software architectures.
@@ -718,6 +799,8 @@ footer {
             </ul>
         </div>
     </div>
+</section>
+
 <!-- Achievements -->
 <section class="fullscreen-section fade-in" id="achievements">
     <h2 class="section-title">Achievements</h2>
@@ -779,7 +862,7 @@ const floatProfile = document.getElementById("floatProfile");
 const contactModal = document.getElementById("contactModal");
 
 window.addEventListener("scroll", () => {
-    const scrollPos = window.scrollY + 200;
+    const scrollPos = window.scrollY + 300;
     let active = sections[0];
 
     for (const s of sections) {
@@ -846,6 +929,45 @@ btnPrev.addEventListener("click", () => {
 
 /* Kick off auto-scrolling */
 startLoop();
+
+/* Floating */
+
+document.querySelectorAll(".skill-float-area").forEach(area => {
+    const icons = area.querySelectorAll(".skill");
+    const balls = [];
+    const size = 48;
+
+    icons.forEach(icon => {
+        balls.push({
+            el: icon,
+            x: Math.random() * (area.clientWidth - size),
+            y: Math.random() * (area.clientHeight - size),
+            vx: (Math.random() * 0.6 + 0.3) * (Math.random() > 0.5 ? 1 : -1),
+            vy: (Math.random() * 0.6 + 0.3) * (Math.random() > 0.5 ? 1 : -1),
+            size
+        });
+    });
+
+    function animate() {
+        const w = area.clientWidth;
+        const h = area.clientHeight;
+
+        balls.forEach(b => {
+            b.x += b.vx;
+            b.y += b.vy;
+
+            if (b.x <= 0 || b.x + b.size >= w) b.vx *= -1;
+            if (b.y <= 0 || b.y + b.size >= h) b.vy *= -1;
+
+            b.el.style.transform = `translate(${b.x}px, ${b.y}px)`;
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+});
+
 </script>
 
 </body>
