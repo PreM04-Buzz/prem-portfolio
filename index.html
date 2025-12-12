@@ -327,13 +327,13 @@ header .hero-inner {
     border: 1px solid rgba(234, 179, 8, 0.35);
 }
 
-/* Achievements Section – improved layout */
+/* Achievements Section – full width, no fades */
 .ach-wrapper {
     position: relative;
     width: 100%;
     overflow: hidden;
     margin-top: 36px;
-    padding: 0 30px;
+    padding: 0;
 }
 
 /* Scrollable area */
@@ -351,18 +351,18 @@ header .hero-inner {
 /* Track with achievements */
 .achievement-track {
     display: flex;
-    gap: 24px;
-    padding: 20px 0 25px;
+    gap: 28px;
+    padding: 25px 40px;
     align-items: stretch;
 }
 
-/* Single achievement card – larger, modern */
+/* Single achievement card – same look, bigger spacing */
 .achievement-box {
-    scroll-snap-align: center;
-    flex: 0 0 340px;
+    scroll-snap-align: start;
+    flex: 0 0 360px;
     background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
     color: var(--gold-soft);
-    padding: 20px 22px;
+    padding: 22px 24px;
     border-radius: 14px;
     border: 1px solid rgba(234, 179, 8, 0.45);
     font-size: 1.05rem;
@@ -384,6 +384,12 @@ header .hero-inner {
         0 0 12px rgba(234, 179, 8, 0.25);
 }
 
+/* Remove fades completely */
+.fade-left,
+.fade-right {
+    display: none !important;
+}
+
 /* Arrows */
 .ach-arrow {
     position: absolute;
@@ -401,10 +407,10 @@ header .hero-inner {
     transition: background 0.2s ease, color 0.2s ease;
 }
 .ach-arrow.left {
-    left: 10px;
+    left: 20px;
 }
 .ach-arrow.right {
-    right: 10px;
+    right: 20px;
 }
 .ach-arrow:hover {
     background: rgba(250, 204, 21, 0.18);
@@ -422,51 +428,6 @@ header .hero-inner {
         flex: 0 0 85%;
         font-size: 1rem;
     }
-}
-
-/* Faded edge gradients */
-.fade-left,
-.fade-right {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 70px;
-    pointer-events: none;
-    z-index: 5;
-}
-.fade-left {
-    left: 0;
-    background: linear-gradient(to right, #020617, transparent);
-}
-.fade-right {
-    right: 0;
-    background: linear-gradient(to left, #020617, transparent);
-}
-
-/* Arrow buttons */
-.ach-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(15, 23, 42, 0.98);
-    color: var(--gold-soft);
-    font-size: 1.35rem;
-    border: 1px solid rgba(234, 179, 8, 0.6);
-    border-radius: 999px;
-    padding: 8px 10px;
-    cursor: pointer;
-    z-index: 10;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.75);
-}
-.ach-arrow.left {
-    left: 8px;
-}
-.ach-arrow.right {
-    right: 8px;
-}
-.ach-arrow:hover {
-    background: rgba(250, 204, 21, 0.18);
-    color: var(--gold);
 }
 
 /* Footer */
@@ -589,7 +550,7 @@ footer {
         </div>
 
         <div class="card fade-in">
-            <div class="card-title">Bachelor of Technology, Mechanical Engineering</div>
+            <div class="card-title">Bachelor of Technology</div>
             <div class="card-sub">Siddharth Institute of Engineering and Technology</div>
             <div class="card-meta">MAY 2020 · Puttur, India · GPA: 8.15</div>
         </div>
@@ -757,107 +718,34 @@ footer {
             </ul>
         </div>
     </div>
-</section>
-
-<!-- Achievements – auto + manual carousel -->
+<!-- Achievements -->
 <section class="fullscreen-section fade-in" id="achievements">
     <h2 class="section-title">Achievements</h2>
+    <div class="ach-wrapper">
+        <!-- Left arrow -->
+        <button class="ach-arrow left" id="achPrev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
 
-    <div class="container">
-        <div class="ach-wrapper">
-            <!-- Left arrow -->
-            <button class="ach-arrow left" id="achPrev">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-
-            <!-- Scrollable carousel -->
-            <div class="achievement-slider" id="achSlider">
-                <div class="fade-left"></div>
-                <div class="fade-right"></div>
-
-                <div class="achievement-track" id="achTrack">
-                    <div class="achievement-box">
-                        <i class="fas fa-trophy"></i>
-                        Improved cloud data workflows at HCL, reducing manual work by ~40%.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-star"></i>
-                        Recognized for high-usability UX prototypes ranked among top submissions.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-bolt"></i>
-                        Enhanced performance of large GCS → BigQuery pipelines by ~20%.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-chart-line"></i>
-                        Built scalable cloud data models that improved processing speed by ~30%.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-robot"></i>
-                        Designed ML-based automation scripts that reduced repetitive engineering tasks by ~25%.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        Delivered zero-downtime migrations from on-prem datasets to AWS & GCP with verified accuracy.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-users-cog"></i>
-                        Collaborated with cross-functional teams to ship cloud pipeline enhancements ahead of schedule.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-shield-alt"></i>
-                        Implemented secure data-handling workflows aligned with internal security standards.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-lightbulb"></i>
-                        Proposed cloud cost optimizations, reducing storage and compute spend by ~18%.
-                    </div>
-
-                    <!-- duplicated set for smoother looping -->
-                    <div class="achievement-box">
-                        <i class="fas fa-trophy"></i>
-                        Improved cloud data workflows at HCL, reducing manual work by ~40%.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-star"></i>
-                        Recognized for high-usability UX prototypes ranked among top submissions.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-bolt"></i>
-                        Enhanced performance of large GCS → BigQuery pipelines by ~20%.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-chart-line"></i>
-                        Built scalable cloud data models that improved processing speed by ~30%.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-robot"></i>
-                        Designed ML-based automation scripts that reduced repetitive engineering tasks by ~25%.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        Delivered zero-downtime migrations from on-prem datasets to AWS & GCP with verified accuracy.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-users-cog"></i>
-                        Collaborated with cross-functional teams to ship cloud pipeline enhancements ahead of schedule.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-shield-alt"></i>
-                        Implemented secure data-handling workflows aligned with internal security standards.
-                    </div>
-                    <div class="achievement-box">
-                        <i class="fas fa-lightbulb"></i>
-                        Proposed cloud cost optimizations, reducing storage and compute spend by ~18%.
-                    </div>
-                </div>
+        <!-- Scrollable carousel -->
+        <div class="achievement-slider" id="achSlider">
+            <div class="achievement-track" id="achTrack">
+                <div class="achievement-box"><i class="fas fa-trophy"></i> Improved cloud data workflows at HCL, reducing manual work by ~40%.</div>
+                <div class="achievement-box"><i class="fas fa-star"></i> Recognized for high-usability UX prototypes ranked among top submissions.</div>
+                <div class="achievement-box"><i class="fas fa-bolt"></i> Enhanced performance of large GCS → BigQuery pipelines by ~20%.</div>
+                <div class="achievement-box"><i class="fas fa-chart-line"></i> Built scalable cloud data models that improved processing speed by ~30%.</div>
+                <div class="achievement-box"><i class="fas fa-robot"></i> Designed ML-based automation scripts that reduced repetitive engineering tasks by ~25%.</div>
+                <div class="achievement-box"><i class="fas fa-cloud-upload-alt"></i> Delivered zero-downtime migrations from on-prem datasets to AWS & GCP with verified accuracy.</div>
+                <div class="achievement-box"><i class="fas fa-users-cog"></i> Collaborated with cross-functional teams to ship cloud pipeline enhancements ahead of schedule.</div>
+                <div class="achievement-box"><i class="fas fa-shield-alt"></i> Implemented secure data-handling workflows aligned with internal security standards.</div>
+                <div class="achievement-box"><i class="fas fa-lightbulb"></i> Proposed cloud cost optimizations, reducing storage and compute spend by ~18%.</div>
             </div>
-
-            <!-- Right arrow -->
-            <button class="ach-arrow right" id="achNext">
-                <i class="fas fa-chevron-right"></i>
-            </button>
         </div>
+
+        <!-- Right arrow -->
+        <button class="ach-arrow right" id="achNext">
+            <i class="fas fa-chevron-right"></i>
+        </button>
     </div>
 </section>
 
