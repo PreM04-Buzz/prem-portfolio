@@ -936,13 +936,14 @@ footer {
 </footer>
 
 <script>
-
-    /* FADE-IN ON SCROLL  */
+    /* FADE-IN ON SCROLL */
     const fadeElements = document.querySelectorAll(".fade-in");
     const fadeObserver = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add("visible");
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
         });
       },
       { threshold: 0.2 }
@@ -950,7 +951,7 @@ footer {
     fadeElements.forEach(el => fadeObserver.observe(el));
     
     
-    /* STICKY HEADER SECTION LABEL  */
+    /* STICKY HEADER SECTION LABEL */
     const sections = [
       { id: "welcome", name: "Welcome" },
       { id: "About", name: "About" },
@@ -969,39 +970,43 @@ footer {
     
       for (const s of sections) {
         const el = document.getElementById(s.id);
-        if (el && scrollPos >= el.offsetTop) active = s;
+        if (el && scrollPos >= el.offsetTop) {
+          active = s;
+        }
       }
     
-      if (headerLabel) headerLabel.textContent = active.name;
+      if (headerLabel) {
+        headerLabel.textContent = active.name;
+      }
     });
     
     
-    /* FLOATING CONTACT PROFILE VISIBILITY  */
-    document.addEventListener("DOMContentLoaded", () => {
+    /* FLOATING CONTACT PROFILE VISIBILITY */
     const floatProfile = document.getElementById("floatProfile");
-    const aboutSection = document.getElementById("about");
-
-    if (!floatProfile || !aboutSection) return;
-
-    floatProfile.classList.remove("show");
-    floatProfile.style.display = "none";
-
-    window.addEventListener("scroll", () => {
-        const aboutTop = aboutSection.getBoundingClientRect().top;
-
-        if (aboutTop <= 120) {
-            floatProfile.style.display = "flex";
-            requestAnimationFrame(() => {
-                floatProfile.classList.add("show");
-            });
-        } else {
+    const contactModal = document.getElementById("contactModal");
+    const aboutSection = document.getElementById("About");
+    
+    if (floatProfile && aboutSection) {
+      floatProfile.classList.remove("show");
+    
+      const aboutObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            floatProfile.classList.add("show");
+          } else {
             floatProfile.classList.remove("show");
-            floatProfile.style.display = "none";
+          }
+        },
+        {
+          threshold: 0.3
         }
-    });
+      );
+    
+      aboutObserver.observe(aboutSection);
+    }
     
     
-    /* CONTACT MODAL OPEN HANDLER  */
+    /* CONTACT MODAL OPEN HANDLER */
     document.addEventListener("DOMContentLoaded", () => {
       if (!floatProfile || !contactModal) return;
     
@@ -1011,14 +1016,13 @@ footer {
     });
     
     
-    /* CONTACT MODAL CLOSE HANDLER  */
+    /* CONTACT MODAL CLOSE HANDLER */
     function closeModal() {
       if (contactModal) {
         contactModal.style.display = "none";
       }
     }
     
-
 /* Achievements carousel – auto scroll + manual + arrows + hover pause */
 const slider = document.getElementById("achSlider");
 const track = document.getElementById("achTrack");
