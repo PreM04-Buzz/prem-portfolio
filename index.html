@@ -86,19 +86,16 @@ body {
 /* Floating mini-profile */
 .floating-profile {
     position: fixed;
-    top: 72px;
+    top: 90px;              /* slightly lower than before */
     right: 16px;
 
-    display: flex;
+    display: none;          /* IMPORTANT: hidden initially */
     align-items: center;
     gap: 10px;
 
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-8px);
-
     background: radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.3), transparent 55%),
                 rgba(15, 23, 42, 0.94);
+
     padding: 8px 14px;
     border-radius: 999px;
     color: var(--gold-soft);
@@ -110,14 +107,7 @@ body {
         0 12px 35px rgba(0, 0, 0, 0.55),
         0 0 0 1px rgba(148, 163, 184, 0.45);
 
-    transition: opacity 0.35s ease, transform 0.35s ease;
-}
-
-/* Visible state */
-.floating-profile.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 /* Mini profile image */
@@ -946,16 +936,21 @@ footer {
 </footer>
 
 <script>
-    /* Fade-in on scroll */
+
+    /* FADE-IN ON SCROLL  */
     const fadeElements = document.querySelectorAll(".fade-in");
-    const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("visible");
-      });
-    }, { threshold: 0.2 });
+    const fadeObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      },
+      { threshold: 0.2 }
+    );
     fadeElements.forEach(el => fadeObserver.observe(el));
     
-    /* Sticky header label */
+    
+    /* STICKY HEADER SECTION LABEL  */
     const sections = [
       { id: "welcome", name: "Welcome" },
       { id: "summary", name: "About" },
@@ -967,11 +962,7 @@ footer {
     ];
     
     const headerLabel = document.getElementById("currentSection");
-    const floatProfile = document.getElementById("floatProfile");
-    const contactModal = document.getElementById("contactModal");
-    const welcomeSection = document.getElementById("welcome");
     
-    /* Update sticky header label on scroll */
     window.addEventListener("scroll", () => {
       const scrollPos = window.scrollY + 300;
       let active = sections[0];
@@ -984,7 +975,12 @@ footer {
       if (headerLabel) headerLabel.textContent = active.name;
     });
     
-    /* Floating Contact Me: show ONLY after Welcome is out of view */
+    
+    /* FLOATING CONTACT PROFILE VISIBILITY  */
+    const floatProfile = document.getElementById("floatProfile");
+    const contactModal = document.getElementById("contactModal");
+    const welcomeSection = document.getElementById("welcome");
+    
     if (welcomeSection && floatProfile) {
       const welcomeObserver = new IntersectionObserver(
         ([entry]) => {
@@ -1000,22 +996,24 @@ footer {
       welcomeObserver.observe(welcomeSection);
     }
     
-    /* Contact modal open */
+    
+    /* CONTACT MODAL OPEN HANDLER  */
     document.addEventListener("DOMContentLoaded", () => {
-      if (floatProfile && contactModal) {
-        floatProfile.addEventListener("click", () => {
-          contactModal.style.display = "flex";
-        });
-      }
+      if (!floatProfile || !contactModal) return;
+    
+      floatProfile.addEventListener("click", () => {
+        contactModal.style.display = "flex";
+      });
     });
     
-    /* Contact modal close */
+    
+    /* CONTACT MODAL CLOSE HANDLER  */
     function closeModal() {
-      const modal = document.getElementById("contactModal");
-      if (modal) modal.style.display = "none";
+      if (contactModal) {
+        contactModal.style.display = "none";
+      }
     }
-
-
+    
 
 /* Achievements carousel – auto scroll + manual + arrows + hover pause */
 const slider = document.getElementById("achSlider");
