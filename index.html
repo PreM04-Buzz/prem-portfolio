@@ -964,57 +964,30 @@ const sections = [
 const headerLabel = document.getElementById("currentSection");
 const floatProfile = document.getElementById("floatProfile");
 const contactModal = document.getElementById("contactModal");
-const aboutSection = document.getElementById("About");
 
-
-/* Sticky header text */
 window.addEventListener("scroll", () => {
-    const scrollPos = window.scrollY + 200;
-    let active = sections[0];
+    const scrollPos = window.scrollY + 300;    
+       let active = sections[0];
 
     for (const s of sections) {
         const el = document.getElementById(s.id);
-        if (el && scrollPos >= el.offsetTop) {
-            active = s;
-        }
+        if (el && scrollPos >= el.offsetTop) active = s;   
     }
+    
+    headerLabel.textContent = active.name;
+       
+    floatProfile.style.display =
+        scrollPos > document.getElementById("About").offsetTop ? "flex" : "none";
+}); 
 
-    if (headerLabel) {
-        headerLabel.textContent = active.name;
-    }
+/* Contact modal open/close */
+floatProfile.addEventListener("click", () => {
+    contactModal.style.display = "flex";
 });
-
-/* Floating Contact Me – appear only at About */
-if (floatProfile && aboutSection) {
-    floatProfile.classList.remove("show");
-
-    const aboutObserver = new IntersectionObserver(
-        ([entry]) => {
-            if (entry.isIntersecting) {
-                floatProfile.classList.add("show");
-            } else {
-                floatProfile.classList.remove("show");
-            }
-        },
-        { threshold: 0.35 }
-    );
-
-    aboutObserver.observe(aboutSection);
-}
-
-/* Contact modal open */
-if (floatProfile && contactModal) {
-    floatProfile.addEventListener("click", () => {
-        contactModal.style.display = "flex";
-    });
-}
-
-/* Contact modal close */
 function closeModal() {
-    if (contactModal) {
-        contactModal.style.display = "none";
-    }
+    contactModal.style.display = "none";
 }
+
     
 /* Achievements carousel – auto scroll + manual + arrows + hover pause */
 const slider = document.getElementById("achSlider");
