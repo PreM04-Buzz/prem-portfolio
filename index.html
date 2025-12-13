@@ -977,24 +977,28 @@ footer {
     
     
     /* FLOATING CONTACT PROFILE VISIBILITY  */
+    document.addEventListener("DOMContentLoaded", () => {
     const floatProfile = document.getElementById("floatProfile");
-    const contactModal = document.getElementById("contactModal");
-    const welcomeSection = document.getElementById("welcome");
-    
-    if (welcomeSection && floatProfile) {
-      const welcomeObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
+    const aboutSection = document.getElementById("about");
+
+    if (!floatProfile || !aboutSection) return;
+
+    floatProfile.classList.remove("show");
+    floatProfile.style.display = "none";
+
+    window.addEventListener("scroll", () => {
+        const aboutTop = aboutSection.getBoundingClientRect().top;
+
+        if (aboutTop <= 120) {
+            floatProfile.style.display = "flex";
+            requestAnimationFrame(() => {
+                floatProfile.classList.add("show");
+            });
+        } else {
             floatProfile.classList.remove("show");
-          } else {
-            floatProfile.classList.add("show");
-          }
-        },
-        { threshold: 0.4 }
-      );
-    
-      welcomeObserver.observe(welcomeSection);
-    }
+            floatProfile.style.display = "none";
+        }
+    });
     
     
     /* CONTACT MODAL OPEN HANDLER  */
