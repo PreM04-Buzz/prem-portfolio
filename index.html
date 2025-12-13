@@ -277,8 +277,8 @@ header .hero-inner {
     border-radius: 999px;
 }
 
-/* Summary text */
-.summary-text {
+/* About text */
+.About-text {
     max-width: 900px;
     margin: 0 auto;
     font-size: 1.02rem;
@@ -530,6 +530,27 @@ footer {
         font-size: 1.9rem;
     }
 }
+
+.typing-line {
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    color: #9ca3af;
+    margin-top: 8px;
+    letter-spacing: 0.4px;
+}
+
+.typing-cursor {
+    display: inline-block;
+    margin-left: 2px;
+    color: #facc15;
+    animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+}
+
+
 </style>
 </head>
 
@@ -540,7 +561,7 @@ footer {
 <!-- Floating profile -->
 <div class="floating-profile" id="floatProfile">
     <img src="IMG_183.jpg" alt="Prem mini" />
-    <span>Prem Swaroopa Nanda</span>
+    <span>Contact Me</span>
 </div>
 
 <!-- Contact Modal -->
@@ -586,7 +607,11 @@ footer {
     <div class="hero-inner">
         <img src="IMG_183.jpg" class="profile-photo" alt="Prem Swaroopa Nanda" />
         <h1 class="profile-name">PREM SWAROOPA NANDA RAMALINGAM</h1>
-        <p class="hero-subtitle">Software Engineer · Cloud & Data · Applied Machine Learning</p>
+        <p class="hero-subtitle typing-line">
+            <span id="typing-text"></span>
+            <span class="typing-cursor">|</span>
+        </p>
+        
 
         <div class="contact-info">
             <div>
@@ -610,8 +635,8 @@ footer {
 
 <!-- Summary -->
 <section class="fullscreen-section fade-in" id="summary">
-    <h2 class="section-title">Summary</h2>
-    <p class="summary-text">
+    <h2 class="section-title">About</h2>
+    <p class="About-text">
         I am a Computer Science graduate student driven by strong attention to detail, with a solid
         background in software engineering, cloud technologies, and applied machine learning. I enjoy building
         scalable systems, designing simple and intuitive user experiences, and applying data-driven methods to
@@ -864,7 +889,7 @@ fadeElements.forEach(el => observer.observe(el));
 /* Sticky header label + floating profile visibility */
 const sections = [
     { id: "welcome", name: "Welcome" },
-    { id: "summary", name: "Summary" },
+    { id: "summary", name: "About" },
     { id: "education", name: "Education" },
     { id: "skills", name: "Skills" },
     { id: "experience", name: "Work Experience" },
@@ -888,7 +913,7 @@ window.addEventListener("scroll", () => {
     headerLabel.textContent = active.name;
 
     floatProfile.style.display =
-        scrollPos > document.getElementById("summary").offsetTop ? "flex" : "none";
+        scrollPos > document.getElementById("About").offsetTop ? "flex" : "none";
 });
 
 /* Contact modal open/close */
@@ -994,6 +1019,21 @@ document.querySelectorAll(".skill-float-area").forEach(area => {
     animate();
 });
 
+const typingText = "Software Engineer · Cloud & Data · Applied Machine Learning";
+const typingSpeed = 55;
+
+let index = 0;
+const target = document.getElementById("typing-text");
+
+function typeEffect() {
+    if (index < typingText.length) {
+        target.textContent += typingText.charAt(index);
+        index++;
+        setTimeout(typeEffect, typingSpeed);
+    }
+}
+
+setTimeout(typeEffect, 500);
 
 </script>
 
