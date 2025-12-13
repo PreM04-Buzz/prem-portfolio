@@ -442,40 +442,57 @@ header .hero-inner {
 }
 
 /* FLOAT AREA BASE */
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
 .skill-float-area {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
+    position: absolute;   /* KEY CHANGE */
+    top: 20%;
+    width: 420px;
+    height: 420px;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
-
-/* LEFT SIDE */
 .skill-float-area.left {
-  left: 0;
-  width: 45%;
+    left: -250px;
 }
 
-/* RIGHT SIDE */
 .skill-float-area.right {
-  right: 0;
-  width: 45%;
+    right: 250px;
 }
 
-/* ICON */
-.skill {
-  position: absolute;
-  font-size: 2.4rem;
-  padding: 10px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
-  box-shadow:
-    0 10px 25px rgba(0, 0, 0, 0.45),
-    inset 0 0 12px rgba(255, 255, 255, 0.12);
-  will-change: transform;
+
+.skill-orbit {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: orbit 8s linear infinite;
 }
+
+.skill-float-area.right .skill-orbit {
+    animation-direction: reverse;
+}
+
+.skill {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 2.4rem;
+    padding: 10px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    transform-origin: -210px center;
+}
+
+/* Orbit animation */
+@keyframes orbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 
 /* BRAND COLORS */
 .python { color: #3776AB; }
@@ -487,6 +504,10 @@ header .hero-inner {
 .js { color: #F7DF1E; }
 .linux { color: #FCC624; }
 .github { color: #ffffff; }
+.db   { color: #4DB33D; }
+.node { color: #68A063; }
+.k8s  { color: #326CE5; }
+.ml   { color: #FFD43B; }
 
 
 /* Footer */
@@ -547,25 +568,19 @@ footer {
 <!-- Hero / Welcome -->
 <header id="welcome" class="fade-in">
 
-<!-- LEFT FLOATING AREA -->
 <div class="skill-float-area left">
-    <div class="skill-icons">
-        <i class="fab fa-python skill python"></i>
-        <i class="fab fa-java skill java"></i>
-        <i class="fab fa-docker skill docker"></i>
-        <i class="fab fa-linux skill linux"></i>
-    </div>
+  <i class="fab fa-python skill python"></i>
+  <i class="fab fa-java skill java"></i>
+  <i class="fab fa-docker skill docker"></i>
+  <i class="fab fa-linux skill linux"></i>
 </div>
 
-<!-- RIGHT FLOATING AREA -->
 <div class="skill-float-area right">
-    <div class="skill-icons">
-        <i class="fab fa-aws skill aws"></i>
-        <i class="fab fa-google skill gcp"></i>
-        <i class="fab fa-react skill react"></i>
-        <i class="fab fa-js skill js"></i>
-        <i class="fab fa-github skill github"></i>
-    </div>
+  <i class="fab fa-aws skill aws"></i>
+  <i class="fab fa-google skill gcp"></i>
+  <i class="fab fa-react skill react"></i>
+  <i class="fab fa-js skill js"></i>
+  <i class="fab fa-github skill github"></i>
 </div>
 
     <div class="hero-inner">
@@ -930,36 +945,47 @@ btnPrev.addEventListener("click", () => {
 /* Kick off auto-scrolling */
 startLoop();
 
-/* Floating */
+/* FLOATING SKILL ICONS — LEFT & RIGHT */
 
 document.querySelectorAll(".skill-float-area").forEach(area => {
     const icons = area.querySelectorAll(".skill");
-    const balls = [];
-    const size = 48;
+    const orbits = [];
 
-    icons.forEach(icon => {
-        balls.push({
+    const centerX = () => area.clientWidth / 2;
+    const centerY = () => area.clientHeight / 2;
+
+    icons.forEach((icon, index) => {
+        const radiusBase = 150;          // wider orbit
+        const radiusStep = 45;           // spacing between icons
+
+        const rx = radiusBase + index * radiusStep + Math.random() * 30;
+        const ry = radiusBase + index * radiusStep * 0.75 + Math.random() * 30;
+
+        orbits.push({
             el: icon,
-            x: Math.random() * (area.clientWidth - size),
-            y: Math.random() * (area.clientHeight - size),
-            vx: (Math.random() * 0.6 + 0.3) * (Math.random() > 0.5 ? 1 : -1),
-            vy: (Math.random() * 0.6 + 0.3) * (Math.random() > 0.5 ? 1 : -1),
-            size
+            angle: Math.random() * Math.PI * 2,
+            speed: 0.004 + Math.random() * 0.003, // faster orbit
+            rx,
+            ry,
+            depth: 0.65 + Math.random() * 0.45
         });
     });
 
     function animate() {
-        const w = area.clientWidth;
-        const h = area.clientHeight;
+        const cx = centerX();
+        const cy = centerY();
 
-        balls.forEach(b => {
-            b.x += b.vx;
-            b.y += b.vy;
+        orbits.forEach(o => {
+            o.angle += o.speed;
 
-            if (b.x <= 0 || b.x + b.size >= w) b.vx *= -1;
-            if (b.y <= 0 || b.y + b.size >= h) b.vy *= -1;
+            const x = cx + Math.cos(o.angle) * o.rx;
+            const y = cy + Math.sin(o.angle) * o.ry;
 
-            b.el.style.transform = `translate(${b.x}px, ${b.y}px)`;
+            o.el.style.transform = `
+                translate(${x - 24}px, ${y - 24}px)
+                scale(${o.depth})
+            `;
+            o.el.style.opacity = o.depth;
         });
 
         requestAnimationFrame(animate);
@@ -967,6 +993,7 @@ document.querySelectorAll(".skill-float-area").forEach(area => {
 
     animate();
 });
+
 
 </script>
 
