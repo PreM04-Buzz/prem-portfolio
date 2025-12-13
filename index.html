@@ -86,25 +86,28 @@ body {
 /* Floating mini-profile */
 .floating-profile {
     position: fixed;
-    top: env(safe-area-inset-top, 12px);
-    right: env(safe-area-inset-right, 14px);
-    display: none;
+    top: 90px;              /* slightly lower than before */
+    right: 16px;
+
+    display: none;          /* IMPORTANT: hidden initially */
     align-items: center;
     gap: 10px;
-    background:
-        radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.28), transparent 55%),
-        rgba(15, 23, 42, 0.95);
-    padding: clamp(7px, 1.2vw, 9px) clamp(12px, 2vw, 14px);
+
+    background: radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.3), transparent 55%),
+                rgba(15, 23, 42, 0.94);
+
+    padding: 8px 14px;
     border-radius: 999px;
     color: var(--gold-soft);
     font-weight: 600;
-    font-size: clamp(0.82rem, 1.8vw, 0.9rem);
     cursor: pointer;
     z-index: 2000;
+
     box-shadow:
         0 12px 35px rgba(0, 0, 0, 0.55),
         0 0 0 1px rgba(148, 163, 184, 0.45);
-    backdrop-filter: blur(6px);
+
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 /* Mini profile image */
@@ -689,8 +692,8 @@ footer {
     </div>
 </header>
 
-<!-- Summary -->
-<section class="fullscreen-section fade-in" id="summary">
+<!-- About -->
+<section class="fullscreen-section fade-in" id="About">
     <h2 class="section-title">About</h2>
     <p class="About-text">
         I am a Computer Science graduate student driven by strong attention to detail, with a solid
@@ -971,6 +974,23 @@ window.addEventListener("scroll", () => {
     floatProfile.style.display =
         scrollPos > document.getElementById("About").offsetTop ? "flex" : "none";
 });
+
+/* Contact modal */
+const floatProfile = document.getElementById("floatProfile");
+const aboutSection = document.getElementById("about");
+
+window.addEventListener("scroll", () => {
+    const aboutTop = aboutSection.getBoundingClientRect().top;
+
+    if (aboutTop <= 120) {
+        floatProfile.style.display = "flex";
+        floatProfile.style.opacity = "1";
+        floatProfile.style.transform = "translateY(0)";
+    } else {
+        floatProfile.style.display = "none";
+    }
+});
+
 
 /* Contact modal open/close */
 document.addEventListener("DOMContentLoaded", () => {
