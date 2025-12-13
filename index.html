@@ -946,80 +946,75 @@ footer {
 </footer>
 
 <script>
-/* Fade-in on scroll */
-const fadeElements = document.querySelectorAll(".fade-in");
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    /* Fade-in on scroll */
+    const fadeElements = document.querySelectorAll(".fade-in");
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add("visible");
-    });
-}, { threshold: 0.2 });
-fadeElements.forEach(el => observer.observe(el));
-
-/* Sticky header label + floating profile visibility */
-const sections = [
-    { id: "welcome", name: "Welcome" },
-    { id: "summary", name: "About" },
-    { id: "education", name: "Education" },
-    { id: "skills", name: "Skills" },
-    { id: "experience", name: "Work Experience" },
-    { id: "projects", name: "Projects" },
-    { id: "achievements", name: "Achievements" }
-];
-
-const headerLabel = document.getElementById("currentSection");
-const floatProfile = document.getElementById("floatProfile");
-const contactModal = document.getElementById("contactModal");
-
-window.addEventListener("scroll", () => {
-    const scrollPos = window.scrollY + 300;
-    let active = sections[0];
-
-    for (const s of sections) {
-        const el = document.getElementById(s.id);
-        if (el && scrollPos >= el.offsetTop) active = s;
-    }
-
-    headerLabel.textContent = active.name;
-
-    floatProfile.style.display =
-        scrollPos > document.getElementById("About").offsetTop ? "flex" : "none";
-});
-
-/* Contact modal */
-const floatProfile = document.getElementById("floatProfile");
-const aboutSection = document.getElementById("about");
-
-window.addEventListener("scroll", () => {
-    const aboutTop = aboutSection.getBoundingClientRect().top;
-
-    if (aboutTop <= 120) {
-        floatProfile.style.display = "flex";
-        floatProfile.style.opacity = "1";
-        floatProfile.style.transform = "translateY(0)";
-    } else {
-        floatProfile.style.display = "none";
-    }
-});
-
-
-/* Contact modal open/close */
-document.addEventListener("DOMContentLoaded", () => {
+      });
+    }, { threshold: 0.2 });
+    fadeElements.forEach(el => fadeObserver.observe(el));
+    
+    /* Sticky header label */
+    const sections = [
+      { id: "welcome", name: "Welcome" },
+      { id: "summary", name: "About" },
+      { id: "education", name: "Education" },
+      { id: "skills", name: "Skills" },
+      { id: "experience", name: "Work Experience" },
+      { id: "projects", name: "Projects" },
+      { id: "achievements", name: "Achievements" }
+    ];
+    
+    const headerLabel = document.getElementById("currentSection");
     const floatProfile = document.getElementById("floatProfile");
     const contactModal = document.getElementById("contactModal");
-
-    if (floatProfile && contactModal) {
+    const welcomeSection = document.getElementById("welcome");
+    
+    /* Update sticky header label on scroll */
+    window.addEventListener("scroll", () => {
+      const scrollPos = window.scrollY + 300;
+      let active = sections[0];
+    
+      for (const s of sections) {
+        const el = document.getElementById(s.id);
+        if (el && scrollPos >= el.offsetTop) active = s;
+      }
+    
+      if (headerLabel) headerLabel.textContent = active.name;
+    });
+    
+    /* Floating Contact Me: show ONLY after Welcome is out of view */
+    if (welcomeSection && floatProfile) {
+      const welcomeObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            floatProfile.classList.remove("show");
+          } else {
+            floatProfile.classList.add("show");
+          }
+        },
+        { threshold: 0.4 }
+      );
+    
+      welcomeObserver.observe(welcomeSection);
+    }
+    
+    /* Contact modal open */
+    document.addEventListener("DOMContentLoaded", () => {
+      if (floatProfile && contactModal) {
         floatProfile.addEventListener("click", () => {
-            contactModal.style.display = "flex";
+          contactModal.style.display = "flex";
         });
+      }
+    });
+    
+    /* Contact modal close */
+    function closeModal() {
+      const modal = document.getElementById("contactModal");
+      if (modal) modal.style.display = "none";
     }
-});
 
-function closeModal() {
-    const contactModal = document.getElementById("contactModal");
-    if (contactModal) {
-        contactModal.style.display = "none";
-    }
-}
 
 
 /* Achievements carousel – auto scroll + manual + arrows + hover pause */
