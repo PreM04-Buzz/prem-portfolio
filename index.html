@@ -86,35 +86,49 @@ body {
 /* Floating mini-profile */
 .floating-profile {
     position: fixed;
-    top: 60px;
-    right: 16px;
+    top: env(safe-area-inset-top, 12px);
+    right: env(safe-area-inset-right, 14px);
     display: none;
     align-items: center;
     gap: 10px;
-    background: radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.3), transparent 55%),
-                rgba(15, 23, 42, 0.94);
-    padding: 8px 14px;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.28), transparent 55%),
+        rgba(15, 23, 42, 0.95);
+    padding: clamp(7px, 1.2vw, 9px) clamp(12px, 2vw, 14px);
     border-radius: 999px;
     color: var(--gold-soft);
     font-weight: 600;
+    font-size: clamp(0.82rem, 1.8vw, 0.9rem);
     cursor: pointer;
     z-index: 2000;
     box-shadow:
         0 12px 35px rgba(0, 0, 0, 0.55),
         0 0 0 1px rgba(148, 163, 184, 0.45);
+    backdrop-filter: blur(6px);
 }
+
+/* Mini profile image */
 .floating-profile img {
-    width: 32px;
-    height: 32px;
+    width: clamp(28px, 6vw, 32px);
+    height: clamp(28px, 6vw, 32px);
     border-radius: 50%;
     border: 2px solid var(--gold-soft);
     object-fit: cover;
 }
+
+/* Mini profile text */
 .floating-profile span {
-    font-size: 0.86rem;
+    white-space: nowrap;
 }
 
-/* Modal overlay */
+/* Hide text on very small screens */
+@media (max-width: 360px) {
+    .floating-profile span {
+        display: none;
+    }
+}
+
+/* Contact modal overlay */
 .modal {
     position: fixed;
     inset: 0;
@@ -123,30 +137,47 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 3000;
+    padding: 16px;
 }
 
-/* Modal card */
+/* Contact modal card */
 .modal-content {
-    background: radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.20), transparent 55%),
-                rgba(15, 23, 42, 0.96);
-    color: var(--text-light);
-    padding: 26px 22px 20px;
-    border-radius: 18px;
-    width: 90%;
+    width: 100%;
     max-width: 430px;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.20), transparent 55%),
+        rgba(15, 23, 42, 0.97);
+    color: var(--text-light);
+    padding: clamp(22px, 4vw, 26px);
+    border-radius: 18px;
     text-align: center;
     border: 1px solid var(--border-soft);
     box-shadow:
         0 24px 60px rgba(0, 0, 0, 0.9),
         0 0 0 1px rgba(234, 179, 8, 0.25);
+    animation: modalPop 0.25s ease-out;
 }
+
+/* Modal open animation */
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Modal heading */
 .modal-content h2 {
-    font-size: 1.35rem;
-    margin-bottom: 16px;
+    font-size: clamp(1.2rem, 3vw, 1.35rem);
+    margin-bottom: 14px;
     color: var(--gold-soft);
 }
 
-/* Modal buttons */
+/* Contact action buttons */
 .modal-btn {
     display: flex;
     align-items: center;
@@ -155,31 +186,56 @@ body {
     width: 100%;
     background: rgba(15, 23, 42, 0.9);
     color: var(--gold-soft);
-    padding: 11px 12px;
+    padding: clamp(10px, 2vw, 12px);
     border-radius: 999px;
     margin: 6px 0;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: clamp(0.9rem, 2vw, 0.95rem);
     border: 1px solid rgba(234, 179, 8, 0.55);
     text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
+
+/* Icons inside buttons */
 .modal-btn i {
     font-size: 1rem;
 }
+
+/* Button hover state */
 .modal-btn:hover {
     background: rgba(250, 204, 21, 0.12);
     color: var(--gold);
+    transform: translateY(-1px);
 }
+
+/* Close modal button */
 .close-btn {
     margin-top: 14px;
+    width: 100%;
     background: rgba(31, 41, 55, 0.95);
     padding: 10px 12px;
     border-radius: 999px;
     color: #e5e7eb;
     font-size: 0.9rem;
+    font-weight: 600;
     border: 1px solid rgba(148, 163, 184, 0.6);
     cursor: pointer;
+    transition: background 0.2s ease;
 }
+
+/* Close button hover */
+.close-btn:hover {
+    background: rgba(55, 65, 81, 0.95);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
 
 /* Header / hero */
 header {
@@ -559,7 +615,7 @@ footer {
 <div class="sticky-header" id="currentSection">Welcome</div>
 
 <!-- Floating profile -->
-<div class="floating-profile" id="floatProfile">
+<div class="floating-profile" id="floatProfile" style="display:flex !important; opacity:1 !important;">
     <img src="IMG_183.jpg" alt="Prem mini" />
     <span>Contact Me</span>
 </div>
@@ -917,12 +973,24 @@ window.addEventListener("scroll", () => {
 });
 
 /* Contact modal open/close */
-floatProfile.addEventListener("click", () => {
-    contactModal.style.display = "flex";
+document.addEventListener("DOMContentLoaded", () => {
+    const floatProfile = document.getElementById("floatProfile");
+    const contactModal = document.getElementById("contactModal");
+
+    if (floatProfile && contactModal) {
+        floatProfile.addEventListener("click", () => {
+            contactModal.style.display = "flex";
+        });
+    }
 });
+
 function closeModal() {
-    contactModal.style.display = "none";
+    const contactModal = document.getElementById("contactModal");
+    if (contactModal) {
+        contactModal.style.display = "none";
+    }
 }
+
 
 /* Achievements carousel – auto scroll + manual + arrows + hover pause */
 const slider = document.getElementById("achSlider");
