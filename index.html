@@ -609,6 +609,99 @@ footer {
     50.01%, 100% { opacity: 0; }
 }
 
+/* FEEDBACK SECTION */
+
+.feedback-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Form inputs */
+.feedback-form input,
+.feedback-form textarea {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(234, 179, 8, 0.4);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 8px 0;
+  color: #f9fafb;
+  font-size: 0.95rem;
+}
+
+.feedback-form input::placeholder,
+.feedback-form textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* Star rating */
+.star-rating {
+  display: flex;
+  gap: 6px;
+  font-size: 1.6rem;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.star-rating i {
+  color: #374151;
+  transition: color 0.2s ease;
+}
+
+.star-rating i.active {
+  color: var(--gold);
+}
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 999px;
+  background: rgba(250, 204, 21, 0.15);
+  border: 1px solid rgba(234, 179, 8, 0.6);
+  color: var(--gold-soft);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: rgba(250, 204, 21, 0.3);
+}
+
+/* Reviews list */
+.feedback-list {
+  margin-top: 24px;
+}
+
+/* Single review card */
+.review-card {
+  background: var(--glass);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.7);
+}
+
+.review-name {
+  font-weight: 700;
+  color: var(--gold-soft);
+}
+
+.review-stars {
+  color: var(--gold);
+  margin: 4px 0;
+}
+
+.review-text {
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+
 
 </style>
 </head>
@@ -931,6 +1024,51 @@ footer {
     </div>
 </section>
 
+<!-- Feedback / Reviews -->
+<section class="fullscreen-section fade-in" id="feedback">
+    <h2 class="section-title">Feedback</h2>
+  
+    <div class="container feedback-wrap">
+  
+      <!-- Feedback Form -->
+      <div class="feedback-form card">
+        <h3 class="card-title">Leave Your Feedback</h3>
+  
+        <input
+          type="text"
+          id="fbName"
+          placeholder="Your Name"
+          required
+        />
+  
+        <!-- Star Rating -->
+        <div class="star-rating" id="starRating">
+          <i class="fas fa-star" data-value="1"></i>
+          <i class="fas fa-star" data-value="2"></i>
+          <i class="fas fa-star" data-value="3"></i>
+          <i class="fas fa-star" data-value="4"></i>
+          <i class="fas fa-star" data-value="5"></i>
+        </div>
+  
+        <textarea
+          id="fbMessage"
+          rows="4"
+          placeholder="Your feedback..."
+          required
+        ></textarea>
+  
+        <button class="submit-btn" id="submitFeedback">
+          Submit Feedback
+        </button>
+      </div>
+  
+      <!-- Reviews Display -->
+      <div class="feedback-list" id="feedbackList"></div>
+  
+    </div>
+  </section>
+  
+
 <footer>
     © 2025 Prem Swaroopa Nanda Ramalingam
 </footer>
@@ -1099,6 +1237,72 @@ function typeEffect() {
 }
 
 setTimeout(typeEffect, 500);
+
+/* FEEDBACK / REVIEWS LOGIC */
+
+const nameInput = document.getElementById("fbName");
+const messageInput = document.getElementById("fbMessage");
+const stars = document.querySelectorAll("#starRating i");
+const submitBtn = document.getElementById("submitFeedback");
+const feedbackList = document.getElementById("feedbackList");
+
+let selectedRating = 0;
+
+/* Star selection */
+stars.forEach(star => {
+  star.addEventListener("click", () => {
+    selectedRating = star.dataset.value;
+    stars.forEach(s => {
+      s.classList.toggle("active", s.dataset.value <= selectedRating);
+    });
+  });
+});
+
+/* Load saved feedback */
+const storedFeedback =
+  JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+storedFeedback.forEach(addReviewToUI);
+
+/* Submit feedback */
+submitBtn.addEventListener("click", () => {
+  const name = nameInput.value.trim();
+  const message = messageInput.value.trim();
+
+  if (!name || !message || selectedRating === 0) return;
+
+  const review = {
+    name,
+    rating: selectedRating,
+    message
+  };
+
+  storedFeedback.unshift(review);
+  localStorage.setItem("feedbacks", JSON.stringify(storedFeedback));
+
+  addReviewToUI(review);
+
+  nameInput.value = "";
+  messageInput.value = "";
+  selectedRating = 0;
+  stars.forEach(s => s.classList.remove("active"));
+});
+
+/* Render review */
+function addReviewToUI(review) {
+  const card = document.createElement("div");
+  card.className = "review-card";
+
+  const starsHtml = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+
+  card.innerHTML = `
+    <div class="review-name">${review.name}</div>
+    <div class="review-stars">${starsHtml}</div>
+    <div class="review-text">${review.message}</div>
+  `;
+
+  feedbackList.prepend(card);
+}
 
 </script>
 
