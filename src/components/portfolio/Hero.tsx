@@ -92,7 +92,7 @@ const Hero = () => {
         <div className="flex items-center justify-center gap-5 mt-12 animate-fade-in-up" style={{ animationDelay: "0.6s", opacity: 0 }}>
           {[
             { Icon: Github, href: "https://github.com/prem04-buzz", label: "GitHub" },
-            { Icon: Linkedin, href: "#", label: "LinkedIn" },
+            { Icon: Linkedin, href: "https://www.linkedin.com/in/prem-ramalingam-81b35238b", label: "LinkedIn" },
             { Icon: Mail, href: "mailto:Ramlingam.prem@gmail.com", label: "Email" },
           ].map(({ Icon, href, label }) => (
             <a

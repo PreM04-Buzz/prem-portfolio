@@ -55,7 +55,7 @@ const CommandPalette = () => {
     },
     {
       id: "linkedin", label: "Open LinkedIn", hint: "Connect professionally", Icon: Linkedin,
-      action: () => { window.open("https://linkedin.com", "_blank"); setOpen(false); },
+      action: () => { window.open("https://www.linkedin.com/in/prem-ramalingam-81b35238b", "_blank"); setOpen(false); },
       group: "Links",
     },
   ], []);

@@ -5,7 +5,7 @@ const channels = [
   { Icon: Mail, label: "Email", value: "Ramlingam.prem@gmail.com", href: "mailto:Ramlingam.prem@gmail.com" },
   { Icon: Phone, label: "Phone", value: "+1 (312) 730-7277", href: "tel:+13127307277" },
   { Icon: MapPin, label: "Location", value: "Chicago, IL", href: "#" },
-  { Icon: Linkedin, label: "LinkedIn", value: "Connect with me", href: "#" },
+  { Icon: Linkedin, label: "LinkedIn", value: "Connect with me", href: "https://www.linkedin.com/in/prem-ramalingam-81b35238b" },
   { Icon: Github, label: "GitHub", value: "@prem04-buzz", href: "https://github.com/prem04-buzz" },
 ];
 
